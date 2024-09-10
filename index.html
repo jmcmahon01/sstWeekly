@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly SST Checks (P2)</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Weekly SST Checks</h1>
+    <div>
+      <label for="assay">Select Assay</label>
+      <select id="assay">
+        <option value="" selected disabled>Select Assay</option>
+        <option value="AMPoff">AMPoff</option>
+        <option value="Antidepressants">Antidepressants</option>
+        <option value="BTHC">BTHC</option>
+        <option value="Creatinine">Creatinine</option>
+        <option value="DLMeth">DL Meth</option>
+        <option value="ETG">ETG</option>
+        <option value="Gaba">Gaba</option>
+        <option value="OralFluids">OralFluids</option>
+        <option value="Pain2">Pain2</option>
+        <option value="Pain3">Pain3</option>
+        <option value="Synthetic">Synthetic</option>
+        <option value="Testosterone">Testosterone</option>
+        <option value="tfvDP">TFV-DP</option>
+        <option value="vitD">VitD</option>
+      </select>
+    </div>
+    <div>
+      <label for="lcms">Select LCMS Instrument:</label>
+      <select id="lcms" disabled>
+        <option value="">Select an instrument</option>
+      </select>
+    </div>
+    <div>
+      <label for="fileUpload">Upload CSV file:</label>
+      <input type="file" id="fileUpload" accept=".csv">
+    </div>
+    <button id="analyzeBtn">Analyze Data</button>
+    <button id="resetMainFormBtn">Reset Form</button>
+
+
+    <div id="resultsDisplay"></div>
+
+    <h2>Parent Analyte Means</h2>
+    <button id="toggleMeansBtn">Show Parent Analyte Means</button>
+    <div id="establishedMeansContainer" class="collapsed">
+      <button id="saveMeansBtn">Save Changes</button>
+    </div>
+
+    <h2>ISTD Means</h2>
+    <button id="toggleISTDBtn">Show ISTD means</button>
+    <div id="istdContainer" class="collapsed">
+      <button id="saveISTDBtn">Save Changes</button>
+    </div>
+  </div>
+
+  <div class="previous-runs-container">
+    <h2>Previous Runs</h2>
+    <div id="searchContainer">
+      <div class="radio-group">
+        <label>
+          <input type="radio" id="searchAssay" name="searchType" value="assay" checked>
+          Search by Assay
+        </label>
+        <label>
+          <input type="radio" id="searchInstrument" name="searchType" value="instrument">
+          Search by Instrument
+        </label>
+        <label>
+          <input type="radio" id="searchBatch" name="searchType" value="batch">
+          Search by Batch Name
+        </label>
+      </div>
+
+      <div id="searchInputContainer">
+        <!-- The appropriate search input will be dynamically inserted here -->
+      </div>
+
+      <button id="searchBtn">Search Runs</button>
+      <button id="resetPreviousRunsBtn">Reset Previous Runs</button>
+    </div>
+
+    <div id="previousRuns"></div>
+  </div>
+
+  <!-- New separate container for updating instruments -->
+  <div class="update-container">
+    <h2>Update Instruments for Assays</h2>
+    <div>
+      <label for="updateAssay">Select Assay:</label>
+      <select id="updateAssay">
+        <option value="BTHC">BTHC</option>
+        <option value="AMPoff">AMPoff</option>
+        <option value="OralFluids">OralFluids</option>
+        <!-- Add other assays here -->
+      </select>
+
+      <label for="newInstrument">Add New Instrument:</label>
+      <input type="text" id="newInstrument" placeholder="Enter instrument name">
+
+      <button id="addInstrumentBtn">Add Instrument</button>
+
+      <h3>Current Instruments:</h3>
+      <ul id="currentInstrumentsList"></ul>
+    </div>
+  </div>
+  <script type="module" src="JS/script.js"></script>
+</body>
+
+</html>
