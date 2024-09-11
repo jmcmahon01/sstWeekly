@@ -131,13 +131,27 @@ function saveISTDAnalytes(assay) {
 
   for (const analyte in istdAnalytes[assay]) {
     if (istdAnalytes[assay].hasOwnProperty(analyte)) {
-      // Special handling for the problematic analyte
-      const inputAnalyte = analyte === 'IS_THC-COOH_D3' ? 'IS_THC_CO_OH_D3' : analyte;
+      const peakAreaInput = document.getElementById(`istdPeakArea_${analyte}`);
+      const retentionTimeMinInput = document.getElementById(`istdRetentionTimeMin_${analyte}`);
+      const retentionTimeMaxInput = document.getElementById(`istdRetentionTimeMax_${analyte}`);
 
-      const peakArea = parseFloat(document.getElementById(`istdPeakArea_${inputAnalyte}`).value);
-      const retentionTimeMin = parseFloat(document.getElementById(`istdRetentionTimeMin_${inputAnalyte}`).value);
-      const retentionTimeMax = parseFloat(document.getElementById(`istdRetentionTimeMax_${inputAnalyte}`).value);
+      // Log the inputs to check if they exist
+      console.log(`Peak Area Input for ${analyte}:`, peakAreaInput);
+      console.log(`RT Min Input for ${analyte}:`, retentionTimeMinInput);
+      console.log(`RT Max Input for ${analyte}:`, retentionTimeMaxInput);
 
+      // Check if inputs exist
+      if (!peakAreaInput || !retentionTimeMinInput || !retentionTimeMaxInput) {
+        console.error(`Input elements for analyte ${analyte} not found.`);
+        continue; // Skip this analyte if any input is missing
+      }
+
+      // Get values from inputs
+      const peakArea = parseFloat(peakAreaInput.value);
+      const retentionTimeMin = parseFloat(retentionTimeMinInput.value);
+      const retentionTimeMax = parseFloat(retentionTimeMaxInput.value);
+
+      // Update the analyte data
       updatedISTD[analyte] = {
         peakArea,
         retentionTime: {
@@ -148,6 +162,7 @@ function saveISTDAnalytes(assay) {
     }
   }
 
+  // Save updated ISTD analytes
   istdAnalytes[assay] = { ...updatedISTD };
   localStorage.setItem(`${assay}IstdAnalytes`, JSON.stringify(istdAnalytes[assay]));
   console.log(`Updated ISTD Analytes for ${assay}:`, istdAnalytes[assay]);
@@ -219,11 +234,6 @@ function analyzeData() {
     const processedAnalytes = new Set();
 
     const findMeanValues = (analyte) => {
-      // Special handling for the problematic analyte
-      if (analyte === 'IS_THC-COOH_D3') {
-        return istdAnalytes[currentAssay]['IS_THC_CO_OH_D3'] || establishedMeans[currentAssay]['IS_THC_CO_OH_D3'];
-      }
-
       // Try exact match first
       if (establishedMeans[currentAssay][analyte]) {
         return establishedMeans[currentAssay][analyte];
@@ -663,17 +673,16 @@ function displayIstdAnalytes() {
   const container = document.getElementById('istdContainer');
   container.innerHTML = '';
 
+  console.log('ISTD Analytes for current assay before display:', istdAnalytes[currentAssay]); // Log the analytes
+
   for (const analyte in istdAnalytes[currentAssay]) {
     if (istdAnalytes[currentAssay].hasOwnProperty(analyte)) {
       const { peakArea, retentionTime } = istdAnalytes[currentAssay][analyte];
       const analyteDiv = document.createElement('div');
       analyteDiv.classList.add('istd-analyte-item');
 
-      // Special handling for the problematic analyte
-      const displayAnalyte = analyte === 'IS_THC_CO_OH_D3' ? 'IS_THC-COOH_D3' : analyte;
-
       analyteDiv.innerHTML = `
-        <span class="analyte-name">${displayAnalyte}:</span>
+        <span class="analyte-name">${analyte}:</span>
         <div class="input-group">
           <label for="istdPeakArea_${analyte}">Peak Area:</label>
           <input type="number" id="istdPeakArea_${analyte}" value="${peakArea}">
