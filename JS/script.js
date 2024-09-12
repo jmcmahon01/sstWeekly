@@ -14,49 +14,111 @@ import { Testosterone } from './assays/testosterone.js';
 import { tfvDP } from './assays/tfvdp.js';
 import { vitD } from './assays/vitd.js';
 
+// Complete list of instruments
+const allInstruments = [
+    'LCMS 1', 'LCMS 2', 'LCMS 3', 'LCMS 4',
+    'LCMS 5', 'LCMS 6', 'LCMS 7', 'LCMS 9',
+    'LCMS 10', 'LCMS 15', 'LCMS 16', 'LCMS 17'
+];
 
+// Initialize the instruments mapping
+const assayInstruments = {
+    "AMPoff": ['LCMS 3', 'LCMS 7'], // Initial instruments from the AMPoff.js file
+    "Antidepressants": [],
+    "BTHC": [],
+    "Creatinine": [],
+    "DLMeth": [],
+    "ETG": [],
+    "Gaba": [],
+    "OralFluids": [],
+    "Pain2": [],
+    "Pain3": [],
+    "Synthetic": [],
+    "Testosterone": [],
+    "tfvDP": [],
+    "vitD": []
+};
 
-function updateCurrentInstruments() {
-  const selectedAssay = document.getElementById('updateAssay').value;
-  const currentInstrumentsList = document.getElementById('currentInstrumentsList');
-  const availableInstrumentsDropdown = document.getElementById('availableInstrumentsDropdown'); // Assuming you have a dropdown for available instruments
+// Load instruments from localStorage on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const savedInstruments = localStorage.getItem('assayInstruments');
+    if (savedInstruments) {
+        const parsedInstruments = JSON.parse(savedInstruments);
+        // Merge saved instruments with the existing assayInstruments
+        Object.keys(parsedInstruments).forEach(assay => {
+            if (assayInstruments[assay]) {
+                assayInstruments[assay] = [...new Set([...assayInstruments[assay], ...parsedInstruments[assay]])];
+            }
+        });
+    }
 
-  // Clear current instruments list
-  currentInstrumentsList.innerHTML = '';
+    // Populate the dropdown with all instruments
+    populateInstrumentsDropdown();
 
-  // Get instruments for the selected assay
-  const instruments = assayInstruments[selectedAssay] || [];
-  instruments.forEach(instrument => {
-    const li = document.createElement('li');
-    li.textContent = instrument;
-    currentInstrumentsList.appendChild(li);
-  });
+    // Optionally, you can call updateCurrentInstruments() here to display the instruments for the selected assay
+    updateCurrentInstruments();
 
-  // Update available instruments dropdown
-  availableInstrumentsDropdown.innerHTML = ''; // Clear existing options
-  Object.keys(assayInstruments).forEach(assay => {
-    assayInstruments[assay].forEach(instrument => {
-      const option = document.createElement('option');
-      option.value = instrument;
-      option.textContent = instrument;
-      availableInstrumentsDropdown.appendChild(option);
+    // Set up the event listener for assay selection
+    document.getElementById('updateAssay').addEventListener('change', function () {
+        const selectedAssay = this.value;
+        updateCurrentInstruments(selectedAssay);
     });
-  });
-}
-
-document.getElementById('addInstrumentBtn').addEventListener('click', function () {
-  const selectedAssay = document.getElementById('updateAssay').value;
-  const newInstrument = document.getElementById('newInstrument').value.trim();
-
-  if (newInstrument && !assayInstruments[selectedAssay].includes(newInstrument)) {
-    assayInstruments[selectedAssay].push(newInstrument);
-    document.getElementById('newInstrument').value = ''; // Clear input
-    updateCurrentInstruments(); // Refresh the list
-  } else {
-    alert('Please enter a valid instrument or it already exists.');
-  }
 });
 
+// Function to populate the instruments dropdown
+function populateInstrumentsDropdown() {
+    const availableInstrumentsDropdown = document.getElementById('availableInstruments');
+    
+    // Clear existing options
+    availableInstrumentsDropdown.innerHTML = '<option value="">Select an instrument</option>';
+
+    // Populate with all instruments
+    allInstruments.forEach(instrument => {
+        const option = document.createElement('option');
+        option.value = instrument;
+        option.textContent = instrument;
+        availableInstrumentsDropdown.appendChild(option);
+    });
+}
+
+// Function to update the current instruments list
+function updateCurrentInstruments(selectedAssay) {
+    const currentInstrumentsList = document.getElementById('currentInstrumentsList');
+    const selectedAssayValue = selectedAssay || document.getElementById('updateAssay').value;
+
+    // Check if the current instruments list element exists
+    if (!currentInstrumentsList) {
+        console.error('Current Instruments List element not found.');
+        return; // Exit the function if the element is not found
+    }
+
+    // Clear current instruments list
+    currentInstrumentsList.innerHTML = '';
+
+    // Get instruments for the selected assay
+    const instruments = assayInstruments[selectedAssayValue] || [];
+    instruments.forEach(instrument => {
+        const li = document.createElement('li');
+        li.textContent = instrument;
+        currentInstrumentsList.appendChild(li);
+    });
+}
+
+// Event listener for adding an instrument
+document.getElementById('addInstrumentBtn').addEventListener('click', function () {
+    const selectedAssay = document.getElementById('updateAssay').value;
+    const selectedInstrument = document.getElementById('availableInstruments').value;
+
+    if (selectedInstrument && !assayInstruments[selectedAssay].includes(selectedInstrument)) {
+        assayInstruments[selectedAssay].push(selectedInstrument);
+        updateCurrentInstruments(selectedAssay); // Refresh the list
+
+        // Save updated instruments to localStorage
+        localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments));
+    } else {
+        alert('Please select a valid instrument or it already exists.');
+    }
+});
 
 const assayData = {
   Pain2,
@@ -73,24 +135,6 @@ const assayData = {
   Testosterone,
   tfvDP,
   vitD
-};
-
-// Initialize the instruments mapping
-const assayInstruments = {
-  "AMPoff": AMPoff.instruments,
-  "Antidepressants": Antidepressants.instruments,
-  "BTHC": BTHC.instruments,
-  "Creatinine": Creatinine.instruments,
-  "DLMeth": DLMeth.instruments,
-  "ETG": ETG.instruments,
-  "Gaba": Gaba.instruments,
-  "OralFluids": OralFluids.instruments,
-  "Pain2": Pain2.instruments,
-  "Pain3": Pain3.instruments,
-  "Synthetic": Synthetic.instruments,
-  "Testosterone": Testosterone.instruments,
-  "tfvDP": tfvDP.instruments,
-  "vitD": vitD.instruments
 };
 
 let establishedMeans = {};
