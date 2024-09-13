@@ -39,7 +39,7 @@ Or access application in web browser at:
 https://jmcmahon01.github.io/sstWeekly
 
 ## Known Bugs
-* The update instruments for assay section is storing new instruments correctly, but not updating the list of available instruments for the assay to run on in analyze data. 
+* No known bugs
 
 
 
