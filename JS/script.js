@@ -110,8 +110,9 @@ document.getElementById('addInstrumentBtn').addEventListener('click', function (
   if (selectedInstrument) {
     addInstrument(selectedAssay, selectedInstrument);
     updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
+    alert('Instrument has been added.'); // Alert for adding instrument
   } else {
-    alert('Please select a valid instrument.');
+    alert('Please select a valid instrument to add.');
   }
 });
 
@@ -141,6 +142,7 @@ document.getElementById('removeInstrumentBtn').addEventListener('click', functio
     removeInstrument(selectedAssay, selectedInstrument);
     updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
     updateLCMSDropdown(); // Update the LCMS dropdown in the analyze container
+    alert('Instrument has been removed.'); // Alert for removing instrument
   } else {
     alert('Please select a valid instrument to remove.');
   }
