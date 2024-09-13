@@ -42,7 +42,7 @@ const allInstruments = [
 // Function to populate the available instruments dropdown
 function populateAvailableInstrumentsDropdown() {
   const availableInstrumentsDropdown = document.getElementById('availableInstruments');
-  
+
   // Clear existing options
   availableInstrumentsDropdown.innerHTML = '<option value="">Select an instrument</option>';
 
@@ -56,7 +56,7 @@ function populateAvailableInstrumentsDropdown() {
 }
 
 // Call this function on page load to ensure the dropdown is populated
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Load instruments from localStorage
   const savedInstruments = localStorage.getItem('assayInstruments');
   if (savedInstruments) {
@@ -312,7 +312,15 @@ function analyzeData() {
 
   reader.onload = function (event) {
     const csvData = event.target.result;
-    const rows = csvData.split('\n').slice(1); // Skip header row
+    const rows = csvData.split('\n').map(row => row.split(',')); // Split CSV into rows and columns
+
+    // Check if the CSV has the expected number of columns
+    const expectedColumnCount = 32; // Set this to the expected number of columns
+    if (rows.length < 2 || rows[0].length !== expectedColumnCount) {
+      alert('The uploaded CSV file does not match the required format. Please check the file.');
+      return; // Exit if the format is invalid
+    }
+
     let passCount = 0;
     let failCount = 0;
     const results = [];
@@ -357,9 +365,10 @@ function analyzeData() {
     };
 
     rows.forEach(row => {
-      if (row.trim() === '') return;
+      // Check if the row is empty (i.e., has no columns)
+      if (row.length === 0 || row[0].trim() === '') return; // Check if the first column is empty
 
-      const columns = row.split(',').map(item => item.trim());
+      const columns = row.map(item => item.trim()); // Trim each column
       batchName = columns[0];
       const analyte = columns[4];
 
