@@ -31,5 +31,5 @@ export const Synthetic = {
     'IS_Mitragynine_D3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'IS_XLR-11_4-Hydroxypentyl_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 1', 'LCMS 4']
+  defaultInstruments: ['LCMS 1', 'LCMS 4']
 };

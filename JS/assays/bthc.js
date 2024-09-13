@@ -11,5 +11,5 @@ export const BTHC = {
     'IS_Phenobarbital_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'IS_THC-COOH_D3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 6']
+  defaultInstruments: ['LCMS 6']
 };

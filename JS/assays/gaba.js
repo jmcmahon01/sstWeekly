@@ -6,5 +6,5 @@ export const Gaba = {
   defaultIstdAnalytes: {
     'Gabapentin_D10': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 3', 'LCMS 4']
+  defaultInstruments: ['LCMS 3', 'LCMS 4']
 };

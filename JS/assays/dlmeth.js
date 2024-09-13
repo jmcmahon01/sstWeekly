@@ -7,5 +7,5 @@ export const DLMeth = {
     'D-Methamphetamine_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'L-Methamphetamine_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 2', 'LCMS 3']
+  defaultInstruments: ['LCMS 2', 'LCMS 3']
 };

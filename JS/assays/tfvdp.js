@@ -5,5 +5,5 @@ export const tfvDP = {
   defaultIstdAnalytes: {
     'IS_Tenofovir-DP_D6': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 10', 'LCMS 16', 'LCMS 17']
+  defaultInstruments: ['LCMS 10', 'LCMS 16', 'LCMS 17']
 };

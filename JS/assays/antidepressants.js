@@ -33,5 +33,5 @@ export const Antidepressants = {
     'IS_Sertraline_D3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'IS_Trazodone_D6': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 1', 'LCMS 3']
+  defaultInstruments: ['LCMS 1', 'LCMS 3']
 };

@@ -42,5 +42,5 @@ export const Pain3 = {
     'IS_THC-COOH_D3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
 
   },
-  instruments: ['LCMS 6', 'LCMS 7']
+  defaultInstruments: ['LCMS 6', 'LCMS 7']
 };

@@ -5,5 +5,5 @@ export const Creatinine = {
   defaultIstdAnalytes: {
     'IS_Creatinine_D3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } }
   },
-  instruments: ['LCMS 4', 'LCMS 9', 'LCMS 15']
+  defaultInstruments: ['LCMS 4', 'LCMS 9', 'LCMS 15']
 };

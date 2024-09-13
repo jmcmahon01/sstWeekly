@@ -6,5 +6,5 @@ export const vitD = {
   defaultIstdAnalytes: {
     'd6-25OHD3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 9']
+  defaultInstruments: ['LCMS 9']
 };

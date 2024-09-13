@@ -14,133 +14,130 @@ import { Testosterone } from './assays/testosterone.js';
 import { tfvDP } from './assays/tfvdp.js';
 import { vitD } from './assays/vitd.js';
 
-// Complete list of instruments
-const allInstruments = [
-    'LCMS 1', 'LCMS 2', 'LCMS 3', 'LCMS 4',
-    'LCMS 5', 'LCMS 6', 'LCMS 7', 'LCMS 9',
-    'LCMS 10', 'LCMS 15', 'LCMS 16', 'LCMS 17'
-];
-
 // Initialize the instruments mapping
 const assayInstruments = {
-    "AMPoff": ['LCMS 3', 'LCMS 7'], // Initial instruments for AMPoff
-    "Antidepressants": [],
-    "BTHC": [],
-    "Creatinine": [],
-    "DLMeth": [],
-    "ETG": [],
-    "Gaba": [],
-    "OralFluids": [],
-    "Pain2": [],
-    "Pain3": [],
-    "Synthetic": [],
-    "Testosterone": [],
-    "tfvDP": [],
-    "vitD": []
+  "AMPoff": AMPoff.defaultInstruments,
+  "Antidepressants": Antidepressants.defaultInstruments,
+  "BTHC": BTHC.defaultInstruments,
+  "Creatinine": Creatinine.defaultInstruments,
+  "DLMeth": DLMeth.defaultInstruments,
+  "ETG": ETG.defaultInstruments,
+  "Gaba": Gaba.defaultInstruments,
+  "OralFluids": OralFluids.defaultInstruments,
+  "Pain2": Pain2.defaultInstruments,
+  "Pain3": Pain3.defaultInstruments,
+  "Synthetic": Synthetic.defaultInstruments,
+  "Testosterone": Testosterone.defaultInstruments,
+  "tfvDP": tfvDP.defaultInstruments,
+  "vitD": vitD.defaultInstruments
 };
 
 // Load instruments from localStorage on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const savedInstruments = localStorage.getItem('assayInstruments');
-    if (savedInstruments) {
-        const parsedInstruments = JSON.parse(savedInstruments);
-        // Merge saved instruments with the existing assayInstruments
-        Object.keys(parsedInstruments).forEach(assay => {
-            if (assayInstruments[assay]) {
-                assayInstruments[assay] = [...new Set([...assayInstruments[assay], ...parsedInstruments[assay]])];
-            }
-        });
-    }
+document.addEventListener('DOMContentLoaded', function () {
+  const savedInstruments = localStorage.getItem('assayInstruments');
+  if (savedInstruments) {
+    const parsedInstruments = JSON.parse(savedInstruments);
+    // Merge saved instruments with the existing assayInstruments
+    Object.keys(parsedInstruments).forEach(assay => {
+      if (assayInstruments[assay]) {
+        assayInstruments[assay] = [...new Set([...assayInstruments[assay], ...parsedInstruments[assay]])];
+      }
+    });
+  }
 
-    // Populate the available instruments dropdown for the update container
-    populateAvailableInstrumentsDropdown();
+  // Populate the available instruments dropdown for the update container
+  populateAvailableInstrumentsDropdown();
 
-    // Update the LCMS dropdown based on the selected assay in the analyze container
-    updateLCMSDropdown();
+  // Update the LCMS dropdown based on the selected assay in the analyze container
+  updateLCMSDropdown();
 });
 
 // Function to populate the available instruments dropdown
 function populateAvailableInstrumentsDropdown() {
-    const availableInstrumentsDropdown = document.getElementById('availableInstruments');
-    
-    // Clear existing options
-    availableInstrumentsDropdown.innerHTML = '<option value="">Select an instrument</option>';
+  const availableInstrumentsDropdown = document.getElementById('availableInstruments');
 
-    // Populate with all instruments
-    allInstruments.forEach(instrument => {
-        const option = document.createElement('option');
-        option.value = instrument;
-        option.textContent = instrument;
-        availableInstrumentsDropdown.appendChild(option);
+  // Clear existing options
+  availableInstrumentsDropdown.innerHTML = '<option value="">Select an instrument</option>';
+
+  // Populate with all instruments from the assayInstruments object
+  Object.keys(assayInstruments).forEach(assay => {
+    assayInstruments[assay].forEach(instrument => {
+      const option = document.createElement('option');
+      option.value = instrument;
+      option.textContent = instrument;
+      availableInstrumentsDropdown.appendChild(option);
     });
+  });
 }
 
 // Function to update the LCMS dropdown based on the selected assay in the analyze container
 function updateLCMSDropdown() {
-    const selectedAssay = document.getElementById('assay').value;
-    const lcmsDropdown = document.getElementById('lcms');
+  const selectedAssay = document.getElementById('assay').value;
+  const lcmsDropdown = document.getElementById('lcms');
 
-    // Enable the dropdown
-    lcmsDropdown.disabled = false;
+  // Enable the dropdown
+  lcmsDropdown.disabled = false;
 
-    // Clear existing options
-    lcmsDropdown.innerHTML = '<option value="">Select an instrument</option>';
+  // Clear existing options
+  lcmsDropdown.innerHTML = '<option value="">Select an instrument</option>';
 
-    // Get instruments for the selected assay
-    const instruments = assayInstruments[selectedAssay] || [];
-    instruments.forEach(instrument => {
-        const option = document.createElement('option');
-        option.value = instrument;
-        option.textContent = instrument;
-        lcmsDropdown.appendChild(option);
-    });
+  // Get instruments for the selected assay
+  const instruments = assayInstruments[selectedAssay] || [];
+  instruments.forEach(instrument => {
+    const option = document.createElement('option');
+    option.value = instrument;
+    option.textContent = instrument;
+    lcmsDropdown.appendChild(option);
+  });
 }
 
 // Event listener for the assay selection in the analyze container
 document.getElementById('assay').addEventListener('change', function () {
-    updateLCMSDropdown(); // Update the LCMS dropdown based on the selected assay
+  updateLCMSDropdown(); // Update the LCMS dropdown based on the selected assay
 });
 
 // Event listener for adding an instrument
 document.getElementById('addInstrumentBtn').addEventListener('click', function () {
-    const selectedAssay = document.getElementById('updateAssay').value;
-    const selectedInstrument = document.getElementById('availableInstruments').value;
+  const selectedAssay = document.getElementById('updateAssay').value;
+  const selectedInstrument = document.getElementById('availableInstruments').value;
 
-    if (selectedInstrument && !assayInstruments[selectedAssay].includes(selectedInstrument)) {
-        assayInstruments[selectedAssay].push(selectedInstrument);
-        updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
-
-        // Save updated instruments to localStorage
-        localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments));
-
-        // Update the LCMS dropdown in the analyze container
-        updateLCMSDropdown();
-    } else {
-        alert('Please select a valid instrument or it already exists.');
-    }
+  if (selectedInstrument) {
+    addInstrument(selectedAssay, selectedInstrument);
+    updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
+  } else {
+    alert('Please select a valid instrument.');
+  }
 });
+
+// Function to add an instrument
+function addInstrument(assay, instrument) {
+  if (!assayInstruments[assay].includes(instrument)) {
+    assayInstruments[assay].push(instrument);
+    localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments));
+  }
+}
 
 // Function to update the current instruments list
 function updateCurrentInstruments(selectedAssay) {
-    const currentInstrumentsList = document.getElementById('currentInstrumentsList');
-    const selectedAssayValue = selectedAssay || document.getElementById('updateAssay').value;
+  const currentInstrumentsList = document.getElementById('currentInstrumentsList');
+  const selectedAssayValue = selectedAssay || document.getElementById('updateAssay').value;
 
-    // Clear current instruments list
-    currentInstrumentsList.innerHTML = '';
+  // Clear current instruments list
+  currentInstrumentsList.innerHTML = '';
 
-    // Get instruments for the selected assay
-    const instruments = assayInstruments[selectedAssayValue] || [];
-    instruments.forEach(instrument => {
-        const li = document.createElement('li');
-        li.textContent = instrument;
-        currentInstrumentsList.appendChild(li);
-    });
+  // Get instruments for the selected assay
+  const instruments = assayInstruments[selectedAssayValue] || [];
+  instruments.forEach(instrument => {
+    const li = document.createElement('li');
+    li.textContent = instrument;
+    currentInstrumentsList.appendChild(li);
+  });
 }
 
 // Event listener for assay selection in the update container
 document.getElementById('updateAssay').addEventListener('change', function () {
-    const selectedAssay = this.value;
-    updateCurrentInstruments(selectedAssay); // Update the current instruments list
+  const selectedAssay = this.value;
+  updateCurrentInstruments(selectedAssay); // Update the current instruments list
 });
 
 const assayData = {
@@ -252,9 +249,9 @@ document.getElementById("assay").addEventListener("change", function () {
   toggleMeansButton.disabled = true;
   toggleISTDButton.disabled = true;
 
-  if (assayData[currentAssay]) {
-    console.log("Instruments for selected assay:", assayData[currentAssay].instruments);
-    assayData[currentAssay].instruments.forEach(instrument => {
+  if (assayInstruments[currentAssay]) { // Use assayInstruments instead of assayData
+    console.log("Instruments for selected assay:", assayInstruments[currentAssay]);
+    assayInstruments[currentAssay].forEach(instrument => {
       const option = document.createElement('option');
       option.value = option.textContent = instrument;
       lcmsDropdown.appendChild(option);

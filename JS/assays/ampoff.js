@@ -5,5 +5,5 @@ export const AMPoff = {
   defaultIstdAnalytes: {
     'IS_Amphetamine_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } }
   },
-  instruments: ['LCMS 3', 'LCMS 7']
+  defaultInstruments: ['LCMS 3', 'LCMS 7']
 };

@@ -53,5 +53,5 @@ export const OralFluids = {
     'IS_Quetiapine_D8': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'IS_THC_D3': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 9']
+  defaultInstruments: ['LCMS 9']
 };

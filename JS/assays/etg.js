@@ -7,5 +7,5 @@ export const ETG = {
     'ETG_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'ETS_D5': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
   },
-  instruments: ['LCMS 3', 'LCMS 4', 'LCMS 9']
+  defaultInstruments: ['LCMS 3', 'LCMS 4', 'LCMS 9']
 };
