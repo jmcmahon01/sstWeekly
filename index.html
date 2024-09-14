@@ -41,9 +41,10 @@
       <label for="fileUpload">Upload CSV file:</label>
       <input type="file" id="fileUpload" accept=".csv">
     </div>
-    <button id="analyzeBtn">Analyze Data</button>
-    <button id="resetMainFormBtn">Reset Form</button>
-
+    <div class="analyze-container">
+      <button id="analyzeBtn">Analyze Data</button>
+      <button id="resetMainFormBtn">Reset Form</button>
+    </div>
 
     <div id="resultsDisplay"></div>
 
@@ -80,7 +81,8 @@
 
     <!-- New separate container for updating instruments -->
     <div class="update-container" style="background-color: lightgreen;">
-      <h2>Update Instruments for Assays</h2>
+      <h2>Update Established Means and Instruments </h2>
+      <h3>Certifying Only</h3>
       <div>
         <label for="updateAssay">Select Assay:</label>
         <select id="updateAssay">
@@ -100,6 +102,18 @@
           <option value="tfvDP">TFV-DP</option>
           <option value="vitD">VitD</option>
         </select>
+
+        <h2>Parent Analyte Means</h2>
+        <button id="toggleMeansBtn" class="toggle-button" disabled>Show Parent Analyte Means</button>
+        <div id="establishedMeansContainer" class="collapsed">
+          <button id="saveMeansBtn">Save Changes</button>
+        </div>
+
+        <h2>ISTD Means</h2>
+        <button id="toggleISTDBtn" class="toggle-button" disabled>Show ISTD means</button>
+        <div id="istdContainer" class="collapsed">
+          <button id="saveISTDBtn">Save Changes</button>
+        </div>
 
         <label for="availableInstruments">Select Instrument:</label>
         <select id="availableInstruments">
@@ -121,18 +135,6 @@
         <button id="addInstrumentBtn">Add Instrument</button>
         <button id="removeInstrumentBtn">Remove Instrument</button>
 
-        <!-- Move the buttons here -->
-        <h2>Parent Analyte Means</h2>
-        <button id="toggleMeansBtn">Show Parent Analyte Means</button>
-        <div id="establishedMeansContainer" class="collapsed">
-          <button id="saveMeansBtn">Save Changes</button>
-        </div>
-
-        <h2>ISTD Means</h2>
-        <button id="toggleISTDBtn">Show ISTD means</button>
-        <div id="istdContainer" class="collapsed">
-          <button id="saveISTDBtn">Save Changes</button>
-        </div>
       </div>
 
       <h3>Current Instruments:</h3>
