@@ -39,7 +39,7 @@ Or access application in web browser at:
 https://jmcmahon01.github.io/sstWeekly
 
 ## Known Bugs
-* No known bugs
+* If you select an assay in the update means and istruments container, that assays instruments selection will populate in the analyze data select instruments drop down until you select a new instrument. 
 
 
 
