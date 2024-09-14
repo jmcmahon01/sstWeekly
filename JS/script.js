@@ -74,6 +74,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Update the LCMS dropdown based on the selected assay in the analyze container
   updateLCMSDropdown();
+
+  // Disable buttons initially
+  document.getElementById('addInstrumentBtn').disabled = true;
+  document.getElementById('removeInstrumentBtn').disabled = true;
+  document.getElementById('toggleMeansBtn').disabled = true;
+  document.getElementById('toggleISTDBtn').disabled = true;
+
+  // Event listener for the assay dropdown
+  document.getElementById('updateAssay').addEventListener('change', function () {
+    const selectedAssay = this.value;
+
+    // Enable buttons if a valid assay is selected
+    const buttons = [
+      'addInstrumentBtn',
+      'removeInstrumentBtn',
+      'toggleMeansBtn',
+      'toggleISTDBtn'
+    ];
+
+    buttons.forEach(buttonId => {
+      document.getElementById(buttonId).disabled = !selectedAssay; // Enable if selectedAssay is not empty
+    });
+  });
 });
 
 // Function to update the LCMS dropdown based on the selected assay in the analyze container
