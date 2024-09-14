@@ -47,89 +47,92 @@
 
     <div id="resultsDisplay"></div>
 
-    <h2>Parent Analyte Means</h2>
-    <button id="toggleMeansBtn">Show Parent Analyte Means</button>
-    <div id="establishedMeansContainer" class="collapsed">
-      <button id="saveMeansBtn">Save Changes</button>
-    </div>
 
-    <h2>ISTD Means</h2>
-    <button id="toggleISTDBtn">Show ISTD means</button>
-    <div id="istdContainer" class="collapsed">
-      <button id="saveISTDBtn">Save Changes</button>
-    </div>
-  </div>
 
-  <div class="previous-runs-container">
-    <h2>Previous Runs</h2>
-    <div id="searchContainer">
-      <div class="radio-group">
-        <label>
-          <input type="radio" id="searchAssay" name="searchType" value="assay" checked>
-          Search by Assay
-        </label>
-        <label>
-          <input type="radio" id="searchInstrument" name="searchType" value="instrument">
-          Search by Instrument
-        </label>
-        <label>
-          <input type="radio" id="searchBatch" name="searchType" value="batch">
-          Search by Batch Name
-        </label>
+    <div class="previous-runs-container">
+      <h2>Previous Runs</h2>
+      <div id="searchContainer">
+        <div class="radio-group">
+          <label>
+            <input type="radio" id="searchAssay" name="searchType" value="assay" checked>
+            Search by Assay
+          </label>
+          <label>
+            <input type="radio" id="searchInstrument" name="searchType" value="instrument">
+            Search by Instrument
+          </label>
+          <label>
+            <input type="radio" id="searchBatch" name="searchType" value="batch">
+            Search by Batch Name
+          </label>
+        </div>
+
+        <div id="searchInputContainer">
+          <!-- The appropriate search input will be dynamically inserted here -->
+        </div>
+
+        <button id="searchBtn">Search Runs</button>
+        <button id="resetPreviousRunsBtn">Reset Previous Runs</button>
       </div>
 
-      <div id="searchInputContainer">
-        <!-- The appropriate search input will be dynamically inserted here -->
-      </div>
-
-      <button id="searchBtn">Search Runs</button>
-      <button id="resetPreviousRunsBtn">Reset Previous Runs</button>
+      <div id="previousRuns"></div>
     </div>
 
-    <div id="previousRuns"></div>
-  </div>
+    <!-- New separate container for updating instruments -->
+    <div class="update-container" style="background-color: lightgreen;">
+      <h2>Update Instruments for Assays</h2>
+      <div>
+        <label for="updateAssay">Select Assay:</label>
+        <select id="updateAssay">
+          <option value="AMPoff">AMPoff</option>
+          <option value="Antidepressants">Antidepressants</option>
+          <option value="BTHC">BTHC</option>
+          <option value="Creatinine">Creatinine</option>
+          <option value="DLMeth">DL Meth</option>
+          <option value="ETG">ETG</option>
+          <option value="Gaba">Gaba</option>
+          <option value="OralFluids">OralFluids</option>
+          <option value="Pain2">Pain2</option>
+          <option value="Pain3">Pain3</option>
+          <option value="Synthetic">Synthetic</option>
+          <option value="Testosterone">Testosterone</option>
+          <option value="tfvDP">TFV-DP</option>
+          <option value="vitD">VitD</option>
+        </select>
 
-  <!-- New separate container for updating instruments -->
-  <div class="update-container">
-    <h2>Update Instruments for Assays</h2>
-    <div>
-      <label for="updateAssay">Select Assay:</label>
-      <select id="updateAssay">
-        <option value="AMPoff">AMPoff</option>
-        <option value="Antidepressants">Antidepressants</option>
-        <option value="BTHC">BTHC</option>
-        <option value="Creatinine">Creatinine</option>
-        <option value="DLMeth">DL Meth</option>
-        <option value="ETG">ETG</option>
-        <option value="Gaba">Gaba</option>
-        <option value="OralFluids">OralFluids</option>
-        <option value="Pain2">Pain2</option>
-        <option value="Pain3">Pain3</option>
-        <option value="Synthetic">Synthetic</option>
-        <option value="Testosterone">Testosterone</option>
-        <option value="tfvDP">TFV-DP</option>
-        <option value="vitD">VitD</option>
-      </select>
+        <label for="availableInstruments">Select Instrument:</label>
+        <select id="availableInstruments">
+          <option value="">Select an instrument</option>
+          <option value="LCMS 1">LCMS 1</option>
+          <option value="LCMS 2">LCMS 2</option>
+          <option value="LCMS 3">LCMS 3</option>
+          <option value="LCMS 4">LCMS 4</option>
+          <option value="LCMS 5">LCMS 5</option>
+          <option value="LCMS 6">LCMS 6</option>
+          <option value="LCMS 7">LCMS 7</option>
+          <option value="LCMS 9">LCMS 9</option>
+          <option value="LCMS 10">LCMS 10</option>
+          <option value="LCMS 15">LCMS 15</option>
+          <option value="LCMS 16">LCMS 16</option>
+          <option value="LCMS 17">LCMS 17</option>
+        </select>
 
-      <label for="availableInstruments">Select Instrument:</label>
-      <select id="availableInstruments">
-        <option value="">Select an instrument</option>
-        <option value="LCMS 1">LCMS 1</option>
-        <option value="LCMS 2">LCMS 2</option>
-        <option value="LCMS 3">LCMS 3</option>
-        <option value="LCMS 4">LCMS 4</option>
-        <option value="LCMS 5">LCMS 5</option>
-        <option value="LCMS 6">LCMS 6</option>
-        <option value="LCMS 7">LCMS 7</option>
-        <option value="LCMS 9">LCMS 9</option>
-        <option value="LCMS 10">LCMS 10</option>
-        <option value="LCMS 15">LCMS 15</option>
-        <option value="LCMS 16">LCMS 16</option>
-        <option value="LCMS 17">LCMS 17</option>
-      </select>
+        <button id="addInstrumentBtn">Add Instrument</button>
+        <button id="removeInstrumentBtn">Remove Instrument</button>
 
-      <button id="addInstrumentBtn">Add Instrument</button>
-      <button id="removeInstrumentBtn">Remove Instrument</button> <!-- New button -->
+        <!-- Move the buttons here -->
+        <h2>Parent Analyte Means</h2>
+        <button id="toggleMeansBtn">Show Parent Analyte Means</button>
+        <div id="establishedMeansContainer" class="collapsed">
+          <button id="saveMeansBtn">Save Changes</button>
+        </div>
+
+        <h2>ISTD Means</h2>
+        <button id="toggleISTDBtn">Show ISTD means</button>
+        <div id="istdContainer" class="collapsed">
+          <button id="saveISTDBtn">Save Changes</button>
+        </div>
+      </div>
 
       <h3>Current Instruments:</h3>
       <ul id="currentInstrumentsList"></ul>

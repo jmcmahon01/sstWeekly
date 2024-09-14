@@ -266,7 +266,7 @@ function saveISTDAnalytes(assay) {
 
 let currentAssay = '';
 
-document.getElementById("assay").addEventListener("change", function () {
+document.getElementById("updateAssay").addEventListener("change", function () {
   currentAssay = this.value;
   console.log("Selected assay:", currentAssay);
   console.log("Assay data:", assayData[currentAssay]);
@@ -880,8 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // At the top of your file, define an array of supported assays
   const supportedAssays = Object.keys(assayData);
 
-  // Then in your event listener
-  document.getElementById("assay").addEventListener("change", function () {
+  document.getElementById("updateAssay").addEventListener("change", function () {
     const selectedAssay = this.value;
 
     if (supportedAssays.includes(selectedAssay)) {
