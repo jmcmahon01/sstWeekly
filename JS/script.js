@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('removeInstrumentBtn').disabled = true;
   document.getElementById('toggleMeansBtn').disabled = true;
   document.getElementById('toggleISTDBtn').disabled = true;
+  document.getElementById('finishedBtn').disabled = true;
 
   // Event listener for the assay dropdown
   document.getElementById('updateAssay').addEventListener('change', function () {
@@ -90,13 +91,59 @@ document.addEventListener('DOMContentLoaded', function () {
       'addInstrumentBtn',
       'removeInstrumentBtn',
       'toggleMeansBtn',
-      'toggleISTDBtn'
+      'toggleISTDBtn',
+      'finishedBtn'
     ];
 
     buttons.forEach(buttonId => {
       document.getElementById(buttonId).disabled = !selectedAssay; // Enable if selectedAssay is not empty
     });
   });
+
+  // Function to clear the update instruments
+  function clearUpdateInstruments() {
+    // Clear the selected assay
+    document.getElementById('updateAssay').value = '';
+
+    // Clear the selected instrument
+    document.getElementById('availableInstruments').value = '';
+
+    // Clear the current instruments list
+    const currentInstrumentsList = document.getElementById('currentInstrumentsList');
+    currentInstrumentsList.innerHTML = ''; // Clear the list
+  }
+
+  // Add event listener to the Finished button
+  const finishedBtn = document.getElementById('finishedBtn');
+  if (finishedBtn) { // Check if the button exists
+    finishedBtn.addEventListener('click', function () {
+      clearUpdateInstruments(); // Call the function to clear the fields
+      alert('Update completed and fields cleared.'); // Optional: Alert the user
+    });
+  } else {
+    console.error('Finished button not found in the DOM.');
+  }
+
+  // Add other event listeners here, ensuring they are wrapped in this block
+  const addInstrumentBtn = document.getElementById('addInstrumentBtn');
+  if (addInstrumentBtn) {
+    addInstrumentBtn.addEventListener('click', function () {
+      // Your add instrument logic here
+    });
+  } else {
+    console.error('Add Instrument button not found in the DOM.');
+  }
+
+  const removeInstrumentBtn = document.getElementById('removeInstrumentBtn');
+  if (removeInstrumentBtn) {
+    removeInstrumentBtn.addEventListener('click', function () {
+      // Your remove instrument logic here
+    });
+  } else {
+    console.error('Remove Instrument button not found in the DOM.');
+  }
+
+  // Add more event listeners as needed
 });
 
 // Function to update the LCMS dropdown based on the selected assay in the analyze container
@@ -937,6 +984,25 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('analyzeBtn').addEventListener('click', analyzeData);
   document.getElementById('resetMainFormBtn').addEventListener('click', resetMainForm);
   document.getElementById('resetPreviousRunsBtn').addEventListener('click', resetPreviousRuns);
+
+  // Function to clear the update instruments
+  function clearUpdateInstruments() {
+    // Clear the selected assay
+    document.getElementById('updateAssay').value = '';
+
+    // Clear the selected instrument
+    document.getElementById('availableInstruments').value = '';
+
+    // Clear the current instruments list
+    const currentInstrumentsList = document.getElementById('currentInstrumentsList');
+    currentInstrumentsList.innerHTML = ''; // Clear the list
+  }
+
+  // Add event listener to the Finished button
+  document.getElementById('finishedBtn').addEventListener('click', function () {
+    clearUpdateInstruments(); // Call the function to clear the fields
+    alert('Update completed and fields cleared.'); // Optional: Alert the user
+  });
 });
 
 function resetMainForm() {
@@ -989,3 +1055,21 @@ function resetPreviousRuns() {
   const previousRunsDiv = document.getElementById('previousRuns');
   if (previousRunsDiv) previousRunsDiv.innerHTML = ''; // Clear previous runs only
 }
+
+// Function to clear the update instruments
+function clearUpdateInstruments() {
+  // Clear the selected assay
+  document.getElementById('updateAssay').value = '';
+
+  // Clear the selected instrument
+  document.getElementById('availableInstruments').value = '';
+
+  // Clear the current instruments list
+  const currentInstrumentsList = document.getElementById('currentInstrumentsList');
+  currentInstrumentsList.innerHTML = ''; // Clear the list
+}
+
+document.getElementById('finishedBtn').addEventListener('click', function () {
+  clearUpdateInstruments(); // Call the function to clear the fields
+  alert('Update completed and fields cleared.'); // Optional: Alert the user
+});
