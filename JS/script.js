@@ -745,6 +745,15 @@ function saveRun(instrument, assay, batchName, result, csvData) {
     // Clear previous runs display
     const previousRunsDiv = document.getElementById('previousRuns');
     if (previousRunsDiv) previousRunsDiv.innerHTML = ''; // Clear previous runs only
+
+    // Reset the radio buttons
+    const radioButtons = document.querySelectorAll('input[name="searchType"]');
+    radioButtons.forEach(radio => {
+      radio.checked = false; // Uncheck all radio buttons
+    });
+
+    // Optionally, set a specific radio button to checked
+    // document.getElementById('defaultRadioButtonId').checked = true; // Uncomment and set the ID of the default radio button
   };
 
   // Use DOMContentLoaded event to ensure the DOM is fully loaded before running our code
@@ -1016,6 +1025,15 @@ function resetPreviousRuns() {
   // Clear previous runs display
   const previousRunsDiv = document.getElementById('previousRuns');
   if (previousRunsDiv) previousRunsDiv.innerHTML = ''; // Clear previous runs only
+
+  // Reset the radio buttons
+  const radioButtons = document.querySelectorAll('input[name="searchType"]');
+  radioButtons.forEach(radio => {
+    radio.checked = false; // Uncheck all radio buttons
+  });
+
+  // Optionally, set a specific radio button to checked
+  // document.getElementById('defaultRadioButtonId').checked = true; // Uncomment and set the ID of the default radio button
 }
 
 // Function to clear the update instruments
