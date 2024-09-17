@@ -100,29 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Function to clear the update instruments
-  function clearUpdateInstruments() {
-    // Clear the selected assay
-    document.getElementById('updateAssay').value = '';
 
-    // Clear the selected instrument
-    document.getElementById('availableInstruments').value = '';
-
-    // Clear the current instruments list
-    const currentInstrumentsList = document.getElementById('currentInstrumentsList');
-    currentInstrumentsList.innerHTML = ''; // Clear the list
-  }
-
-  // Add event listener to the Finished button
-  const finishedBtn = document.getElementById('finishedBtn');
-  if (finishedBtn) { // Check if the button exists
-    finishedBtn.addEventListener('click', function () {
-      clearUpdateInstruments(); // Call the function to clear the fields
-      alert('Update completed and fields cleared.'); // Optional: Alert the user
-    });
-  } else {
-    console.error('Finished button not found in the DOM.');
-  }
 
   // Add other event listeners here, ensuring they are wrapped in this block
   const addInstrumentBtn = document.getElementById('addInstrumentBtn');
@@ -987,24 +965,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('resetMainFormBtn').addEventListener('click', resetMainForm);
   document.getElementById('resetPreviousRunsBtn').addEventListener('click', resetPreviousRuns);
 
-  // Function to clear the update instruments
-  function clearUpdateInstruments() {
-    // Clear the selected assay
-    document.getElementById('updateAssay').value = '';
-
-    // Clear the selected instrument
-    document.getElementById('availableInstruments').value = '';
-
-    // Clear the current instruments list
-    const currentInstrumentsList = document.getElementById('currentInstrumentsList');
-    currentInstrumentsList.innerHTML = ''; // Clear the list
-  }
-
-  // Add event listener to the Finished button
-  document.getElementById('finishedBtn').addEventListener('click', function () {
-    clearUpdateInstruments(); // Call the function to clear the fields
-    alert('Update completed and fields cleared.'); // Optional: Alert the user
-  });
 });
 
 function resetMainForm() {

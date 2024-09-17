@@ -39,8 +39,7 @@ Or access application in web browser at:
 https://jmcmahon01.github.io/sstWeekly
 
 ## Known Bugs
-* If you select an assay in the update means and istruments container, that assays instruments selection will populate in the analyze data select instruments drop down until you select a new instrument. 
-* Finish button creates alert 3 times before clearing fields.
+* No known bugs at this moment. 
 
 
 
