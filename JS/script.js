@@ -336,7 +336,7 @@ function saveISTDAnalytes(assay) {
 
 let currentAssay = '';
 
-document.getElementById("updateAssay").addEventListener("change", function () {
+document.getElementById("assay").addEventListener("change", function () {
   currentAssay = this.value;
   console.log("Selected assay:", currentAssay);
   console.log("Assay data:", assayData[currentAssay]);
