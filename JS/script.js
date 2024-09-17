@@ -795,10 +795,11 @@ window.downloadCSV = downloadCSV;
 function displayEstablishedMeans() {
   const container = document.getElementById('establishedMeansContainer');
   container.innerHTML = '';
+  const updateAssayParent = document.getElementById("updateAssay").value;
 
-  for (const analyte in establishedMeans[currentAssay]) {
-    if (establishedMeans[currentAssay].hasOwnProperty(analyte)) {
-      const { peakArea, retentionTime } = establishedMeans[currentAssay][analyte];
+  for (const analyte in establishedMeans[updateAssayParent]) {
+    if (establishedMeans[updateAssayParent].hasOwnProperty(analyte)) {
+      const { peakArea, retentionTime } = establishedMeans[updateAssayParent][analyte];
       const analyteDiv = document.createElement('div');
       analyteDiv.classList.add('established-means-item');
       analyteDiv.innerHTML = `
@@ -839,19 +840,20 @@ function displayEstablishedMeans() {
   container.appendChild(buttonContainer);
 
   // Attach event listeners
-  saveButton.addEventListener('click', () => saveEstablishedMeans(currentAssay));
+  saveButton.addEventListener('click', () => saveEstablishedMeans(updateAssayParent));
   hideButton.addEventListener('click', toggleEstablishedMeans);
 }
 
 function displayIstdAnalytes() {
   const container = document.getElementById('istdContainer');
   container.innerHTML = '';
+  const updateAssayIstd = document.getElementById("updateAssay").value;
 
-  console.log('ISTD Analytes for current assay before display:', istdAnalytes[currentAssay]); // Log the analytes
+  console.log('ISTD Analytes for current assay before display:', istdAnalytes[updateAssayIstd]); // Log the analytes
 
-  for (const analyte in istdAnalytes[currentAssay]) {
-    if (istdAnalytes[currentAssay].hasOwnProperty(analyte)) {
-      const { peakArea, retentionTime } = istdAnalytes[currentAssay][analyte];
+  for (const analyte in istdAnalytes[updateAssayIstd]) {
+    if (istdAnalytes[updateAssayIstd].hasOwnProperty(analyte)) {
+      const { peakArea, retentionTime } = istdAnalytes[updateAssayIstd][analyte];
       const analyteDiv = document.createElement('div');
       analyteDiv.classList.add('istd-analyte-item');
 
@@ -893,7 +895,7 @@ function displayIstdAnalytes() {
   container.appendChild(buttonContainer);
 
   // Attach event listeners
-  saveButton.addEventListener('click', () => saveISTDAnalytes(currentAssay));
+  saveButton.addEventListener('click', () => saveISTDAnalytes(updateAssayIstd));
   hideButton.addEventListener('click', toggleISTDAnalytes);
 }
 
