@@ -204,23 +204,23 @@ input::placeholder {
 #toggleMeansBtn {
   display: block;
   margin: 10px auto;
-  background-color: #1ab759;
+  background-color: #1ab7ad;
   color: white;
 }
 
 #toggleISTDBtn {
   display: block;
   margin: 10px auto;
-  background-color: #1ab759;
+  background-color: #1ab7ad;
   color: white;
 }
 
 #toggleMeansBtn:hover {
-  background-color: #43d087;
+  background-color: #43d0b2;
 }
 
 #toggleISTDBtn:hover {
-  background-color: #43d087;
+  background-color: #43d0b2;
 }
 
 #searchContainer {
@@ -340,7 +340,19 @@ input::placeholder {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #1ab759;
+  background-color: #1ab7ad;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+#removeInstrumentBtn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #1ab7ad;
   color: white;
   border: none;
   border-radius: 5px;
@@ -348,7 +360,11 @@ input::placeholder {
 }
 
 #addInstrumentBtn:hover {
-  background-color: #43d087;
+  background-color: #43d0b2;
+}
+
+#removeInstrumentBtn:hover {
+  background-color: #43d0b2;
 }
 
 h2 {
