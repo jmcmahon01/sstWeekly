@@ -325,6 +325,10 @@ input::placeholder {
   border-radius: 5px;
 }
 
+.updateContent {
+  display: none;
+}
+
 #newInstrument {
   margin-top: 10px;
   padding: 10px;

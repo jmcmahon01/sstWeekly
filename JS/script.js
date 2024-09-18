@@ -1031,10 +1031,36 @@ function resetPreviousRuns() {
   radioButtons.forEach(radio => {
     radio.checked = false; // Uncheck all radio buttons
   });
-
-  // Optionally, set a specific radio button to checked
-  // document.getElementById('defaultRadioButtonId').checked = true; // Uncomment and set the ID of the default radio button
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const updateContainer = document.querySelector('.update-container');
+  const updateContent = document.querySelector('.updateContent');
+
+  updateContent.style.display = 'none';
+
+  updateContainer.addEventListener('click', function () {
+    if (updateContent.style.display === 'none' || updateContent.style.display === '') {
+      updateContent.style.display = 'block'; //show content
+    } else {
+      updateContent.style.display = 'none'; //Hide content
+    }
+  });
+  //Prevent click events on child elements from closing the content
+  const childElements = updateContent.querySelectorAll('select, button, input')
+  childElements.forEach(element => {
+    element.addEventListener('click', function (event) {
+      event.stopPropagation();
+    });
+  });
+  //hide container when finished button is clicked
+  document.getElementById('finishedBtn').addEventListener('click', function () {
+    const confirmed = confirm('Update completed.');
+    if (confirmed) {
+      updateContent.style.display = 'none';
+    }
+  });
+});
 
 // Function to clear the update instruments
 function clearUpdateInstruments() {
@@ -1051,5 +1077,4 @@ function clearUpdateInstruments() {
 
 document.getElementById('finishedBtn').addEventListener('click', function () {
   clearUpdateInstruments(); // Call the function to clear the fields
-  alert('Update completed and fields cleared.'); // Optional: Alert the user
 });
