@@ -784,6 +784,7 @@ function displayEstablishedMeans() {
   container.innerHTML = '';
   const updateAssayParent = document.getElementById("updateAssay").value;
 
+  // Display existing analytes
   for (const analyte in establishedMeans[updateAssayParent]) {
     if (establishedMeans[updateAssayParent].hasOwnProperty(analyte)) {
       const { peakArea, retentionTime } = establishedMeans[updateAssayParent][analyte];
@@ -824,26 +825,79 @@ function displayEstablishedMeans() {
   hideButton.textContent = 'Hide Parent Analyte Means';
   buttonContainer.appendChild(hideButton);
 
+  // Add the "Add Analyte" button
+  const addButton = document.createElement('button');
+  addButton.id = 'addAnalyteBtn';
+  addButton.textContent = 'Add Analyte';
+  buttonContainer.appendChild(addButton);
+
+  // Add the "Remove Analyte" button
+  const removeButton = document.createElement('button');
+  removeButton.id = 'removeAnalyteBtn';
+  removeButton.textContent = 'Remove Analyte';
+  buttonContainer.appendChild(removeButton);
+
   container.appendChild(buttonContainer);
+
+  // Input fields for adding a new analyte
+  const newAnalyteDiv = document.createElement('div');
+  newAnalyteDiv.innerHTML = `
+    <input type="text" id="newAnalyteName" placeholder="Analyte Name" />
+    <input type="number" id="newPeakArea" placeholder="Peak Area" />
+    <input type="number" id="newRTMin" placeholder="RT Min" />
+    <input type="number" id="newRTMax" placeholder="RT Max" />
+  `;
+  container.appendChild(newAnalyteDiv);
 
   // Attach event listeners
   saveButton.addEventListener('click', () => saveEstablishedMeans(updateAssayParent));
   hideButton.addEventListener('click', toggleEstablishedMeans);
+
+  // Add analyte event listener
+  addButton.addEventListener('click', () => {
+    const newAnalyteName = document.getElementById('newAnalyteName').value.trim();
+    const newPeakArea = parseFloat(document.getElementById('newPeakArea').value);
+    const newRTMin = parseFloat(document.getElementById('newRTMin').value);
+    const newRTMax = parseFloat(document.getElementById('newRTMax').value);
+
+    if (newAnalyteName && !isNaN(newPeakArea) && !isNaN(newRTMin) && !isNaN(newRTMax)) {
+      // Add the new analyte to establishedMeans
+      establishedMeans[updateAssayParent][newAnalyteName] = {
+        peakArea: newPeakArea,
+        retentionTime: {
+          min: newRTMin,
+          max: newRTMax
+        }
+      };
+      displayEstablishedMeans(); // Refresh the display
+    } else {
+      alert('Please fill in all fields correctly.');
+    }
+  });
+
+  // Remove analyte event listener
+  removeButton.addEventListener('click', () => {
+    const analyteToRemove = prompt('Enter the name of the analyte to remove:');
+    if (analyteToRemove && establishedMeans[updateAssayParent][analyteToRemove]) {
+      delete establishedMeans[updateAssayParent][analyteToRemove];
+      displayEstablishedMeans(); // Refresh the display
+    } else {
+      alert('Analyte not found or invalid name.');
+    }
+  });
 }
 
 function displayIstdAnalytes() {
   const container = document.getElementById('istdContainer');
-  container.innerHTML = '';
+  container.innerHTML = ''; // Clear the container
   const updateAssayIstd = document.getElementById("updateAssay").value;
 
-  console.log('ISTD Analytes for current assay before display:', istdAnalytes[updateAssayIstd]); // Log the analytes
-
+  // Display existing ISTD analytes
   for (const analyte in istdAnalytes[updateAssayIstd]) {
     if (istdAnalytes[updateAssayIstd].hasOwnProperty(analyte)) {
       const { peakArea, retentionTime } = istdAnalytes[updateAssayIstd][analyte];
       const analyteDiv = document.createElement('div');
       analyteDiv.classList.add('istd-analyte-item');
-
       analyteDiv.innerHTML = `
         <span class="analyte-name">${analyte}:</span>
         <div class="input-group">
@@ -873,17 +927,90 @@ function displayIstdAnalytes() {
   saveButton.textContent = 'Save Changes';
   buttonContainer.appendChild(saveButton);
 
-  // Add the "Hide ISTD Analytes" button
+  // Add the "Hide ISTD Means" button
   const hideButton = document.createElement('button');
   hideButton.id = 'hideISTDBtnBottom';
-  hideButton.textContent = 'Hide ISTD Analytes';
+  hideButton.textContent = 'Hide ISTD Means';
   buttonContainer.appendChild(hideButton);
+
+  // Add the "Add ISTD Analyte" button
+  const addButton = document.createElement('button');
+  addButton.id = 'addISTDAnalyteBtn';
+  addButton.textContent = 'Add ISTD Analyte';
+  buttonContainer.appendChild(addButton);
+
+  // Add the "Remove ISTD Analyte" button
+  const removeButton = document.createElement('button');
+  removeButton.id = 'removeISTDAnalyteBtn';
+  removeButton.textContent = 'Remove ISTD Analyte';
+  buttonContainer.appendChild(removeButton);
 
   container.appendChild(buttonContainer);
 
+  // Input fields for adding a new ISTD analyte
+  const newIstdAnalyteDiv = document.createElement('div');
+  newIstdAnalyteDiv.innerHTML = `
+    <input type="text" id="newIstdAnalyteName" placeholder="ISTD Analyte Name" />
+    <input type="number" id="newIstdPeakArea" placeholder="Peak Area" />
+    <input type="number" id="newIstdRTMin" placeholder="RT Min" />
+    <input type="number" id="newIstdRTMax" placeholder="RT Max" />
+  `;
+  container.appendChild(newIstdAnalyteDiv);
+
   // Attach event listeners
   saveButton.addEventListener('click', () => saveISTDAnalytes(updateAssayIstd));
-  hideButton.addEventListener('click', toggleISTDAnalytes);
+  hideButton.addEventListener('click', toggleIstdMeans);
+
+  // Add ISTD analyte event listener
+  addButton.addEventListener('click', () => {
+    const newIstdAnalyteName = document.getElementById('newIstdAnalyteName').value.trim();
+    const newIstdPeakArea = parseFloat(document.getElementById('newIstdPeakArea').value);
+    const newIstdRTMin = parseFloat(document.getElementById('newIstdRTMin').value);
+    const newIstdRTMax = parseFloat(document.getElementById('newIstdRTMax').value);
+
+    if (newIstdAnalyteName && !isNaN(newIstdPeakArea) && !isNaN(newIstdRTMin) && !isNaN(newIstdRTMax)) {
+      // Add the new ISTD analyte to istdAnalytes
+      istdAnalytes[updateAssayIstd][newIstdAnalyteName] = {
+        peakArea: newIstdPeakArea,
+        retentionTime: {
+          min: newIstdRTMin,
+          max: newIstdRTMax
+        }
+      };
+      displayIstdAnalytes(); // Refresh the display
+    } else {
+      alert('Please fill in all fields correctly.');
+    }
+  });
+
+  // Remove ISTD analyte event listener
+  removeButton.addEventListener('click', () => {
+    const analyteToRemove = prompt('Enter the name of the ISTD analyte to remove:');
+    if (analyteToRemove && istdAnalytes[updateAssayIstd][analyteToRemove]) {
+      delete istdAnalytes[updateAssayIstd][analyteToRemove];
+      displayIstdAnalytes(); // Refresh the display
+    } else {
+      alert('ISTD Analyte not found or invalid name.');
+    }
+  });
+}
+
+
+
+// Toggle ISTD Means Function
+function toggleIstdMeans() {
+  const container = document.getElementById('istdContainer');
+  const toggleButton = document.getElementById('toggleISTDBtn');
+
+  if (container.classList.contains('collapsed')) {
+    container.classList.remove('collapsed');
+    displayIstdAnalytes();
+    toggleButton.textContent = 'Hide ISTD Means';
+  } else {
+    container.classList.add('collapsed');
+    container.innerHTML = '';
+    toggleButton.textContent = 'Show ISTD Means';
+  }
 }
 
 // Toggle Established Means Function
@@ -899,21 +1026,6 @@ function toggleEstablishedMeans() {
     container.classList.add('collapsed');
     container.innerHTML = '';
     toggleButton.textContent = 'Show Parent Analyte Means';
-  }
-}
-// Function to toggle ISTD analytes display
-function toggleISTDAnalytes() {
-  const container = document.getElementById('istdContainer');
-  const toggleButton = document.getElementById('toggleISTDBtn');
-
-  if (container.classList.contains('collapsed')) {
-    container.classList.remove('collapsed');
-    displayIstdAnalytes();
-    toggleButton.textContent = 'Hide ISTD Means';
-  } else {
-    container.classList.add('collapsed');
-    container.innerHTML = '';
-    toggleButton.textContent = 'Show ISTD Means';
   }
 }
 
@@ -951,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayEstablishedMeans();
       }
       if (!istDContainer.classList.contains('collapsed')) {
-        displayIstdAnalytes();
+        displayIstdMeans();
       }
     } else {
       lcmsDropdown.disabled = true;
@@ -965,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (toggleISTDButton) {
-    toggleISTDButton.addEventListener('click', toggleISTDAnalytes);
+    toggleISTDButton.addEventListener('click', toggleIstdMeans);
   }
 
   // Add event listeners for other buttons
