@@ -1037,29 +1037,33 @@ document.addEventListener('DOMContentLoaded', function () {
   const updateContainer = document.querySelector('.update-container');
   const updateContent = document.querySelector('.updateContent');
 
+  // Initially hide the update content
   updateContent.style.display = 'none';
 
+  // Add click event listener to the update container to show the content
   updateContainer.addEventListener('click', function () {
-    if (updateContent.style.display === 'none' || updateContent.style.display === '') {
-      updateContent.style.display = 'block'; //show content
-    } else {
-      updateContent.style.display = 'none'; //Hide content
-    }
+    updateContent.style.display = 'block'; // Show content
   });
-  //Prevent click events on child elements from closing the content
-  const childElements = updateContent.querySelectorAll('select, button, input')
+
+  // Prevent click events on child elements from closing the content
+  const childElements = updateContent.querySelectorAll('select, button, input'); // Add any other interactive elements as needed
   childElements.forEach(element => {
     element.addEventListener('click', function (event) {
-      event.stopPropagation();
+      event.stopPropagation(); // Prevent the click from bubbling up to the updateContainer
     });
   });
-  //hide container when finished button is clicked
-  document.getElementById('finishedBtn').addEventListener('click', function () {
-    const confirmed = confirm('Update completed.');
-    if (confirmed) {
-      updateContent.style.display = 'none';
-    }
-  });
+
+  // Add event listener for the Finished button
+  const finishedBtn = document.getElementById('finishedBtn');
+  if (finishedBtn) {
+    finishedBtn.addEventListener('click', function () {
+      const confirmed = confirm('Update Completed.');
+      if (confirmed) {
+        // Hide only the update content after confirmation
+        updateContent.style.display = 'none'; // Hide the content, keeping the headers visible
+      }
+    });
+  }
 });
 
 // Function to clear the update instruments
