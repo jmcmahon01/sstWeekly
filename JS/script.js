@@ -813,6 +813,18 @@ function displayEstablishedMeans() {
   const buttonContainer = document.createElement('div');
   buttonContainer.classList.add('button-container');
 
+  // Add the "Add Analyte" button
+  const addButton = document.createElement('button');
+  addButton.id = 'addAnalyteBtn';
+  addButton.textContent = 'Add Analyte';
+  buttonContainer.appendChild(addButton);
+
+  // Add the "Remove Analyte" button
+  const removeButton = document.createElement('button');
+  removeButton.id = 'removeAnalyteBtn';
+  removeButton.textContent = 'Remove Analyte';
+  buttonContainer.appendChild(removeButton);
+
   // Add the "Save Changes" button
   const saveButton = document.createElement('button');
   saveButton.id = 'saveMeansBtn';
@@ -825,17 +837,6 @@ function displayEstablishedMeans() {
   hideButton.textContent = 'Hide Parent Analyte Means';
   buttonContainer.appendChild(hideButton);
 
-  // Add the "Add Analyte" button
-  const addButton = document.createElement('button');
-  addButton.id = 'addAnalyteBtn';
-  addButton.textContent = 'Add Analyte';
-  buttonContainer.appendChild(addButton);
-
-  // Add the "Remove Analyte" button
-  const removeButton = document.createElement('button');
-  removeButton.id = 'removeAnalyteBtn';
-  removeButton.textContent = 'Remove Analyte';
-  buttonContainer.appendChild(removeButton);
 
   container.appendChild(buttonContainer);
 
@@ -921,6 +922,18 @@ function displayIstdAnalytes() {
   const buttonContainer = document.createElement('div');
   buttonContainer.classList.add('button-container');
 
+  // Add the "Add ISTD Analyte" button
+  const addButton = document.createElement('button');
+  addButton.id = 'addISTDAnalyteBtn';
+  addButton.textContent = 'Add ISTD Analyte';
+  buttonContainer.appendChild(addButton);
+
+  // Add the "Remove ISTD Analyte" button
+  const removeButton = document.createElement('button');
+  removeButton.id = 'removeISTDAnalyteBtn';
+  removeButton.textContent = 'Remove ISTD Analyte';
+  buttonContainer.appendChild(removeButton);
+
   // Add the "Save Changes" button
   const saveButton = document.createElement('button');
   saveButton.id = 'saveISTDBtn';
@@ -933,17 +946,6 @@ function displayIstdAnalytes() {
   hideButton.textContent = 'Hide ISTD Means';
   buttonContainer.appendChild(hideButton);
 
-  // Add the "Add ISTD Analyte" button
-  const addButton = document.createElement('button');
-  addButton.id = 'addISTDAnalyteBtn';
-  addButton.textContent = 'Add ISTD Analyte';
-  buttonContainer.appendChild(addButton);
-
-  // Add the "Remove ISTD Analyte" button
-  const removeButton = document.createElement('button');
-  removeButton.id = 'removeISTDAnalyteBtn';
-  removeButton.textContent = 'Remove ISTD Analyte';
-  buttonContainer.appendChild(removeButton);
 
   container.appendChild(buttonContainer);
 
