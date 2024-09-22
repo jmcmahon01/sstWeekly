@@ -39,7 +39,7 @@ Or access application in web browser at:
 https://jmcmahon01.github.io/sstWeekly
 
 ## Known Bugs
-* When searching previous runs for vitD assay, the result shows pass when it failed and Fail when it passed. 
+* No known bugs at this time.
 
 
 
