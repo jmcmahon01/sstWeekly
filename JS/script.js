@@ -352,6 +352,14 @@ document.getElementById("assay").addEventListener("change", function () {
 });
 
 function analyzeData() {
+  // Load saved means from local storage
+  const currentAssay = document.getElementById('assay').value;
+  const savedMeans = JSON.parse(localStorage.getItem('establishedMeans')) || {};
+  const means = savedMeans[currentAssay] || {}; // Get means for the current assay
+
+  // Debugging log to check the means object
+  console.log("Loaded means for current assay:", means);
+
   const fileInput = document.getElementById('fileUpload');
   if (!fileInput.files.length) {
     alert('Please upload a CSV file before analyzing data.');
@@ -473,8 +481,19 @@ function analyzeData() {
     console.log("Pass count:", passCount);
     console.log("Fail count:", failCount);
 
-    displayResults(results, passCount, failCount);
-    saveRun(document.getElementById('lcms').value, document.getElementById('assay').value, batchName, passCount >= Object.keys(assayData[currentAssay].defaultEstablishedMeans).length / 2 ? 'PASS' : 'FAIL', csvData);
+    const totalAnalytes = passCount + failCount; // Total number of analytes processed
+    const runResult = passCount >= totalAnalytes / 2 ? 'PASS' : 'FAIL'; // Determine overall result
+
+    console.log("Overall result for run:", runResult); // Debugging log
+
+    // Call displayResults with the calculated runResult
+    displayResults(results, passCount, failCount, runResult);
+
+    saveRun(document.getElementById('lcms').value,
+      document.getElementById('assay').value,
+      batchName,
+      runResult, // Use the calculated runResult
+      csvData);
   };
 
   reader.onerror = function (error) {
@@ -484,7 +503,7 @@ function analyzeData() {
   reader.readAsText(fileInput.files[0]);
 }
 
-function displayResults(results, passCount, failCount) {
+function displayResults(results, passCount, failCount, runResult) {
   const resultsDisplay = document.getElementById('resultsDisplay'); // Get the results display div
   if (!resultsDisplay) {
     console.error("Results display div not found!");
@@ -494,7 +513,6 @@ function displayResults(results, passCount, failCount) {
   resultsDisplay.innerHTML = ''; // Clear previous results
 
   const totalAnalytes = passCount + failCount;
-  const runResult = passCount >= totalAnalytes / 2 ? 'PASS' : 'FAIL';
 
   resultsDisplay.innerHTML = `
     <h2>Overall Result: ${runResult}</h2>
@@ -523,7 +541,7 @@ function saveRun(instrument, assay, batchName, result, csvData) {
     instrument: instrument,
     assay: assay,
     batchName: batchName,
-    result: result,
+    result: result, // Ensure this is being set correctly
     data: csvData,
     timestamp: Date.now()
   };
@@ -678,7 +696,7 @@ function saveRun(instrument, assay, batchName, result, csvData) {
         <h3>Instrument: ${run.instrument || 'N/A'}</h3>
         <p>Assay: ${run.assay || 'N/A'}</p>
         <p>Batch: ${run.batchName || 'N/A'}</p>
-        <p>Result: ${run.result || 'N/A'}</p>
+        <p>Result: ${run.result || 'N/A'}</p> <!-- Ensure this accesses the correct property -->
         <p>Date: ${run.timestamp ? new Date(run.timestamp).toLocaleString() : 'N/A'}</p>
         ${run.data ? `<button class="download-csv" data-csv="${encodeURIComponent(run.data)}" data-batch="${run.batchName || 'unknown'}">Download CSV</button>` : ''}
         <hr>
