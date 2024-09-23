@@ -831,32 +831,17 @@ function displayEstablishedMeans() {
   const buttonContainer = document.createElement('div');
   buttonContainer.classList.add('button-container');
 
+  // Add the "Save Changes" button
+  const saveButton = document.createElement('button');
+  saveButton.id = 'saveMeansBtn';
+  saveButton.textContent = 'Save Changes to Means';
+  buttonContainer.appendChild(saveButton);
+
   // Add the "Add Analyte" button
   const addButton = document.createElement('button');
   addButton.id = 'addAnalyteBtn';
   addButton.textContent = 'Add Analyte';
   buttonContainer.appendChild(addButton);
-
-  // Add the "Remove Analyte" button
-  const removeButton = document.createElement('button');
-  removeButton.id = 'removeAnalyteBtn';
-  removeButton.textContent = 'Remove Analyte';
-  buttonContainer.appendChild(removeButton);
-
-  // Add the "Save Changes" button
-  const saveButton = document.createElement('button');
-  saveButton.id = 'saveMeansBtn';
-  saveButton.textContent = 'Save Changes';
-  buttonContainer.appendChild(saveButton);
-
-  // Add the "Hide Parent Analyte Means" button
-  const hideButton = document.createElement('button');
-  hideButton.id = 'hideMeansBtnBottom';
-  hideButton.textContent = 'Hide Parent Analyte Means';
-  buttonContainer.appendChild(hideButton);
-
-
-  container.appendChild(buttonContainer);
 
   // Input fields for adding a new analyte
   const newAnalyteDiv = document.createElement('div');
@@ -867,6 +852,25 @@ function displayEstablishedMeans() {
     <input type="number" id="newRTMax" placeholder="RT Max" />
   `;
   container.appendChild(newAnalyteDiv);
+
+
+  // Add the "Remove Analyte" button
+  const removeButton = document.createElement('button');
+  removeButton.id = 'removeAnalyteBtn';
+  removeButton.textContent = 'Remove Analyte';
+  buttonContainer.appendChild(removeButton);
+
+
+
+  // Add the "Hide Parent Analyte Means" button
+  const hideButton = document.createElement('button');
+  hideButton.id = 'hideMeansBtnBottom';
+  hideButton.textContent = 'Hide Parent Analyte Means';
+  buttonContainer.appendChild(hideButton);
+
+
+  container.appendChild(buttonContainer);
+
 
   // Attach event listeners
   saveButton.addEventListener('click', () => saveEstablishedMeans(updateAssayParent));
@@ -940,11 +944,30 @@ function displayIstdAnalytes() {
   const buttonContainer = document.createElement('div');
   buttonContainer.classList.add('button-container');
 
+
+  // Add the "Save Changes" button
+  const saveButton = document.createElement('button');
+  saveButton.id = 'saveISTDBtn';
+  saveButton.textContent = 'Save Changes to Means';
+  buttonContainer.appendChild(saveButton);
+
   // Add the "Add ISTD Analyte" button
   const addButton = document.createElement('button');
   addButton.id = 'addISTDAnalyteBtn';
   addButton.textContent = 'Add ISTD Analyte';
   buttonContainer.appendChild(addButton);
+
+  // Input fields for adding a new ISTD analyte
+  const newIstdAnalyteDiv = document.createElement('div');
+  newIstdAnalyteDiv.innerHTML = `
+     <input type="text" id="newIstdAnalyteName" placeholder="ISTD Analyte Name" />
+     <input type="number" id="newIstdPeakArea" placeholder="Peak Area" />
+     <input type="number" id="newIstdRTMin" placeholder="RT Min" />
+     <input type="number" id="newIstdRTMax" placeholder="RT Max" />
+   `;
+  container.appendChild(newIstdAnalyteDiv);
+
+
 
   // Add the "Remove ISTD Analyte" button
   const removeButton = document.createElement('button');
@@ -952,11 +975,6 @@ function displayIstdAnalytes() {
   removeButton.textContent = 'Remove ISTD Analyte';
   buttonContainer.appendChild(removeButton);
 
-  // Add the "Save Changes" button
-  const saveButton = document.createElement('button');
-  saveButton.id = 'saveISTDBtn';
-  saveButton.textContent = 'Save Changes';
-  buttonContainer.appendChild(saveButton);
 
   // Add the "Hide ISTD Means" button
   const hideButton = document.createElement('button');
@@ -967,15 +985,6 @@ function displayIstdAnalytes() {
 
   container.appendChild(buttonContainer);
 
-  // Input fields for adding a new ISTD analyte
-  const newIstdAnalyteDiv = document.createElement('div');
-  newIstdAnalyteDiv.innerHTML = `
-    <input type="text" id="newIstdAnalyteName" placeholder="ISTD Analyte Name" />
-    <input type="number" id="newIstdPeakArea" placeholder="Peak Area" />
-    <input type="number" id="newIstdRTMin" placeholder="RT Min" />
-    <input type="number" id="newIstdRTMax" placeholder="RT Max" />
-  `;
-  container.appendChild(newIstdAnalyteDiv);
 
   // Attach event listeners
   saveButton.addEventListener('click', () => saveISTDAnalytes(updateAssayIstd));
@@ -999,7 +1008,7 @@ function displayIstdAnalytes() {
       };
       displayIstdAnalytes(); // Refresh the display
     } else {
-      alert('Please fill in all fields correctly.');
+      alert('Please fill in all fields: Analyte Name, Peak Area, RT min, and RT max.');
     }
   });
 
