@@ -846,7 +846,7 @@ function displayEstablishedMeans() {
   // Input fields for adding a new analyte
   const newAnalyteDiv = document.createElement('div');
   newAnalyteDiv.innerHTML = `
-    <input type="text" id="newAnalyteName" placeholder="Analyte Name" />
+    <input type="text" id="newAnalyteName" placeholder="New Parent Analyte Name" />
     <input type="number" id="newPeakArea" placeholder="Peak Area" />
     <input type="number" id="newRTMin" placeholder="RT Min" />
     <input type="number" id="newRTMax" placeholder="RT Max" />
@@ -894,7 +894,7 @@ function displayEstablishedMeans() {
       };
       displayEstablishedMeans(); // Refresh the display
     } else {
-      alert('Please fill in all fields correctly.');
+      alert('Please fill in all fields: Analyte Name, Peak Area, RT min, and RT max.');
     }
   });
 
@@ -960,7 +960,7 @@ function displayIstdAnalytes() {
   // Input fields for adding a new ISTD analyte
   const newIstdAnalyteDiv = document.createElement('div');
   newIstdAnalyteDiv.innerHTML = `
-     <input type="text" id="newIstdAnalyteName" placeholder="ISTD Analyte Name" />
+     <input type="text" id="newIstdAnalyteName" placeholder="New ISTD Analyte Name" />
      <input type="number" id="newIstdPeakArea" placeholder="Peak Area" />
      <input type="number" id="newIstdRTMin" placeholder="RT Min" />
      <input type="number" id="newIstdRTMax" placeholder="RT Max" />
