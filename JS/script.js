@@ -55,7 +55,7 @@ function populateAvailableInstrumentsDropdown() {
   });
 }
 
-// Call this function on page load to ensure the dropdown is populated
+
 document.addEventListener('DOMContentLoaded', function () {
   // Load instruments from localStorage
   const savedInstruments = localStorage.getItem('assayInstruments');
@@ -100,13 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-
-
-  // Add other event listeners here, ensuring they are wrapped in this block
   const addInstrumentBtn = document.getElementById('addInstrumentBtn');
   if (addInstrumentBtn) {
     addInstrumentBtn.addEventListener('click', function () {
-      // Your add instrument logic here
     });
   } else {
     console.error('Add Instrument button not found in the DOM.');
@@ -115,13 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const removeInstrumentBtn = document.getElementById('removeInstrumentBtn');
   if (removeInstrumentBtn) {
     removeInstrumentBtn.addEventListener('click', function () {
-      // Your remove instrument logic here
     });
   } else {
     console.error('Remove Instrument button not found in the DOM.');
   }
-
-  // Add more event listeners as needed
 });
 
 // Function to update the LCMS dropdown based on the selected assay in the analyze container
@@ -799,7 +792,8 @@ window.downloadCSV = downloadCSV;
 
 function displayEstablishedMeans() {
   const container = document.getElementById('establishedMeansContainer');
-  container.innerHTML = '';
+  container.innerHTML = ''; // Clear the container
+
   const updateAssayParent = document.getElementById("updateAssay").value;
 
   // Display existing analytes
@@ -827,21 +821,11 @@ function displayEstablishedMeans() {
     }
   }
 
-  // Add a container for buttons
-  const buttonContainer = document.createElement('div');
-  buttonContainer.classList.add('button-container');
-
-  // Add the "Save Changes" button
+  // Add the "Save Changes" button below the existing analytes
   const saveButton = document.createElement('button');
   saveButton.id = 'saveMeansBtn';
   saveButton.textContent = 'Save Changes to Means';
-  buttonContainer.appendChild(saveButton);
-
-  // Add the "Add Analyte" button
-  const addButton = document.createElement('button');
-  addButton.id = 'addAnalyteBtn';
-  addButton.textContent = 'Add Analyte';
-  buttonContainer.appendChild(addButton);
+  container.appendChild(saveButton);
 
   // Input fields for adding a new analyte
   const newAnalyteDiv = document.createElement('div');
@@ -853,24 +837,23 @@ function displayEstablishedMeans() {
   `;
   container.appendChild(newAnalyteDiv);
 
+  // Add the "Add Analyte" button
+  const addButton = document.createElement('button');
+  addButton.id = 'addAnalyteBtn';
+  addButton.textContent = 'Add Analyte';
+  container.appendChild(addButton);
 
   // Add the "Remove Analyte" button
   const removeButton = document.createElement('button');
   removeButton.id = 'removeAnalyteBtn';
   removeButton.textContent = 'Remove Analyte';
-  buttonContainer.appendChild(removeButton);
-
-
+  container.appendChild(removeButton);
 
   // Add the "Hide Parent Analyte Means" button
   const hideButton = document.createElement('button');
   hideButton.id = 'hideMeansBtnBottom';
   hideButton.textContent = 'Hide Parent Analyte Means';
-  buttonContainer.appendChild(hideButton);
-
-
-  container.appendChild(buttonContainer);
-
+  container.appendChild(hideButton);
 
   // Attach event listeners
   saveButton.addEventListener('click', () => saveEstablishedMeans(updateAssayParent));
@@ -940,51 +923,39 @@ function displayIstdAnalytes() {
     }
   }
 
-  // Add a container for buttons
-  const buttonContainer = document.createElement('div');
-  buttonContainer.classList.add('button-container');
-
-
-  // Add the "Save Changes" button
+  // Add the "Save Changes" button below the existing analytes
   const saveButton = document.createElement('button');
   saveButton.id = 'saveISTDBtn';
   saveButton.textContent = 'Save Changes to Means';
-  buttonContainer.appendChild(saveButton);
+  container.appendChild(saveButton);
+
+  // Input fields for adding a new ISTD analyte
+  const newIstdAnalyteDiv = document.createElement('div');
+  newIstdAnalyteDiv.innerHTML = `
+    <input type="text" id="newIstdAnalyteName" placeholder="New ISTD Analyte Name" />
+    <input type="number" id="newIstdPeakArea" placeholder="Peak Area" />
+    <input type="number" id="newIstdRTMin" placeholder="RT Min" />
+    <input type="number" id="newIstdRTMax" placeholder="RT Max" />
+  `;
+  container.appendChild(newIstdAnalyteDiv);
 
   // Add the "Add ISTD Analyte" button
   const addButton = document.createElement('button');
   addButton.id = 'addISTDAnalyteBtn';
   addButton.textContent = 'Add ISTD Analyte';
-  buttonContainer.appendChild(addButton);
-
-  // Input fields for adding a new ISTD analyte
-  const newIstdAnalyteDiv = document.createElement('div');
-  newIstdAnalyteDiv.innerHTML = `
-     <input type="text" id="newIstdAnalyteName" placeholder="New ISTD Analyte Name" />
-     <input type="number" id="newIstdPeakArea" placeholder="Peak Area" />
-     <input type="number" id="newIstdRTMin" placeholder="RT Min" />
-     <input type="number" id="newIstdRTMax" placeholder="RT Max" />
-   `;
-  container.appendChild(newIstdAnalyteDiv);
-
-
+  container.appendChild(addButton);
 
   // Add the "Remove ISTD Analyte" button
   const removeButton = document.createElement('button');
   removeButton.id = 'removeISTDAnalyteBtn';
   removeButton.textContent = 'Remove ISTD Analyte';
-  buttonContainer.appendChild(removeButton);
-
+  container.appendChild(removeButton);
 
   // Add the "Hide ISTD Means" button
   const hideButton = document.createElement('button');
   hideButton.id = 'hideISTDBtnBottom';
   hideButton.textContent = 'Hide ISTD Means';
-  buttonContainer.appendChild(hideButton);
-
-
-  container.appendChild(buttonContainer);
-
+  container.appendChild(hideButton);
 
   // Attach event listeners
   saveButton.addEventListener('click', () => saveISTDAnalytes(updateAssayIstd));
@@ -1023,8 +994,6 @@ function displayIstdAnalytes() {
     }
   });
 }
-
-
 
 // Toggle ISTD Means Function
 function toggleIstdMeans() {

@@ -166,6 +166,13 @@ button:hover {
   }
 }
 
+#saveMeansBtn {
+  display: block;
+  margin: 0 auto;
+  background-color: #206fb4;
+  color: white;
+}
+
 #saveISTDBtn {
   display: block;
   margin: 0 auto;
@@ -174,11 +181,51 @@ button:hover {
 }
 
 #saveMeansBtn:hover {
-  background-color: #1d5a8f;
+  background-color: #2c86d5;
 }
 
 #saveISTDBtn:hover {
-  background-color: #1d5a8f;
+  background-color: #2c86d5;
+}
+
+#addAnalyteBtn {
+  background-color: #1ab7ad;
+}
+
+#addAnalyteBtn:hover {
+  background-color: #43d0b2;
+}
+
+#removeAnalyteBtn {
+  background-color: #1ab7ad;
+}
+
+#removeAnalyteBtn:hover {
+  background-color: #43d0b2;
+}
+
+#addISTDAnalyteBtn {
+  background-color: #1ab7ad;
+}
+
+#addISTDAnalyteBtn:hover {
+  background-color: #43d0b2;
+}
+
+#removeISTDAnalyteBtn {
+  background-color: #1ab7ad;
+}
+
+#removeISTDAnalyteBtn:hover {
+  background-color: #43d0b2;
+}
+
+#finishedBtn {
+  background-color: #1ab7ad;
+}
+
+#finishedBtn:hover {
+  background-color: #43d0b2;
 }
 
 #analyzeBtn,
