@@ -14,203 +14,7 @@ import { Testosterone } from './assays/testosterone.js';
 import { tfvDP } from './assays/tfvdp.js';
 import { vitD } from './assays/vitd.js';
 
-// Initialize the instruments mapping
-const assayInstruments = {
-  "AMPoff": AMPoff.defaultInstruments,
-  "Antidepressants": Antidepressants.defaultInstruments,
-  "BTHC": BTHC.defaultInstruments,
-  "Creatinine": Creatinine.defaultInstruments,
-  "DLMeth": DLMeth.defaultInstruments,
-  "ETG": ETG.defaultInstruments,
-  "Gaba": Gaba.defaultInstruments,
-  "OralFluids": OralFluids.defaultInstruments,
-  "Pain2": Pain2.defaultInstruments,
-  "Pain3": Pain3.defaultInstruments,
-  "Synthetic": Synthetic.defaultInstruments,
-  "Testosterone": Testosterone.defaultInstruments,
-  "tfvDP": tfvDP.defaultInstruments,
-  "vitD": vitD.defaultInstruments
-};
 
-// Complete list of instruments
-const allInstruments = [
-  'LCMS 1', 'LCMS 2', 'LCMS 3', 'LCMS 4',
-  'LCMS 5', 'LCMS 6', 'LCMS 7', 'LCMS 9',
-  'LCMS 10', 'LCMS 15', 'LCMS 16', 'LCMS 17'
-];
-
-// Function to populate the available instruments dropdown
-function populateAvailableInstrumentsDropdown() {
-  const availableInstrumentsDropdown = document.getElementById('availableInstruments');
-
-  // Clear existing options
-  availableInstrumentsDropdown.innerHTML = '<option value="">Select an instrument</option>';
-
-  // Populate with all instruments
-  allInstruments.forEach(instrument => {
-    const option = document.createElement('option');
-    option.value = instrument;
-    option.textContent = instrument;
-    availableInstrumentsDropdown.appendChild(option);
-  });
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Load instruments from localStorage
-  const savedInstruments = localStorage.getItem('assayInstruments');
-  if (savedInstruments) {
-    const parsedInstruments = JSON.parse(savedInstruments);
-    // Merge saved instruments with the existing assayInstruments
-    Object.keys(parsedInstruments).forEach(assay => {
-      if (assayInstruments[assay]) {
-        assayInstruments[assay] = [...new Set([...assayInstruments[assay], ...parsedInstruments[assay]])];
-      }
-    });
-  }
-
-  // Populate the available instruments dropdown for the update container
-  populateAvailableInstrumentsDropdown();
-
-  // Update the LCMS dropdown based on the selected assay in the analyze container
-  updateLCMSDropdown();
-
-  // Disable buttons initially
-  document.getElementById('addInstrumentBtn').disabled = true;
-  document.getElementById('removeInstrumentBtn').disabled = true;
-  document.getElementById('toggleMeansBtn').disabled = true;
-  document.getElementById('toggleISTDBtn').disabled = true;
-  document.getElementById('finishedBtn').disabled = true;
-
-  // Event listener for the assay dropdown
-  document.getElementById('updateAssay').addEventListener('change', function () {
-    const selectedAssay = this.value;
-
-    // Enable buttons if a valid assay is selected
-    const buttons = [
-      'addInstrumentBtn',
-      'removeInstrumentBtn',
-      'toggleMeansBtn',
-      'toggleISTDBtn',
-      'finishedBtn'
-    ];
-
-    buttons.forEach(buttonId => {
-      document.getElementById(buttonId).disabled = !selectedAssay; // Enable if selectedAssay is not empty
-    });
-  });
-
-  const addInstrumentBtn = document.getElementById('addInstrumentBtn');
-  if (addInstrumentBtn) {
-    addInstrumentBtn.addEventListener('click', function () {
-    });
-  } else {
-    console.error('Add Instrument button not found in the DOM.');
-  }
-
-  const removeInstrumentBtn = document.getElementById('removeInstrumentBtn');
-  if (removeInstrumentBtn) {
-    removeInstrumentBtn.addEventListener('click', function () {
-    });
-  } else {
-    console.error('Remove Instrument button not found in the DOM.');
-  }
-});
-
-// Function to update the LCMS dropdown based on the selected assay in the analyze container
-function updateLCMSDropdown() {
-  const selectedAssay = document.getElementById('assay').value;
-  const lcmsDropdown = document.getElementById('lcms');
-
-  // Enable the dropdown
-  lcmsDropdown.disabled = false;
-
-  // Clear existing options
-  lcmsDropdown.innerHTML = '<option value="">Select an instrument</option>';
-
-  // Get instruments for the selected assay
-  const instruments = assayInstruments[selectedAssay] || [];
-  instruments.forEach(instrument => {
-    const option = document.createElement('option');
-    option.value = instrument;
-    option.textContent = instrument;
-    lcmsDropdown.appendChild(option);
-  });
-}
-
-// Event listener for the assay selection in the analyze container
-document.getElementById('assay').addEventListener('change', function () {
-  updateLCMSDropdown(); // Update the LCMS dropdown based on the selected assay
-});
-
-// Event listener for adding an instrument
-document.getElementById('addInstrumentBtn').addEventListener('click', function () {
-  const selectedAssay = document.getElementById('updateAssay').value;
-  const selectedInstrument = document.getElementById('availableInstruments').value;
-
-  if (selectedInstrument) {
-    addInstrument(selectedAssay, selectedInstrument);
-    updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
-    alert('Instrument has been added.'); // Alert for adding instrument
-  } else {
-    alert('Please select a valid instrument to add.');
-  }
-});
-
-// Function to add an instrument
-function addInstrument(assay, instrument) {
-  if (!assayInstruments[assay].includes(instrument)) {
-    assayInstruments[assay].push(instrument);
-    localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments));
-  }
-}
-
-// Function to remove an instrument
-function removeInstrument(assay, instrument) {
-  const index = assayInstruments[assay].indexOf(instrument);
-  if (index > -1) {
-    assayInstruments[assay].splice(index, 1); // Remove the instrument
-    localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments)); // Update localStorage
-  }
-}
-
-// Event listener for removing an instrument
-document.getElementById('removeInstrumentBtn').addEventListener('click', function () {
-  const selectedAssay = document.getElementById('updateAssay').value;
-  const selectedInstrument = document.getElementById('availableInstruments').value;
-
-  if (selectedInstrument) {
-    removeInstrument(selectedAssay, selectedInstrument);
-    updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
-    updateLCMSDropdown(); // Update the LCMS dropdown in the analyze container
-    alert('Instrument has been removed.'); // Alert for removing instrument
-  } else {
-    alert('Please select a valid instrument to remove.');
-  }
-});
-
-// Function to update the current instruments list
-function updateCurrentInstruments(selectedAssay) {
-  const currentInstrumentsList = document.getElementById('currentInstrumentsList');
-  const selectedAssayValue = selectedAssay || document.getElementById('updateAssay').value;
-
-  // Clear current instruments list
-  currentInstrumentsList.innerHTML = '';
-
-  // Get instruments for the selected assay
-  const instruments = assayInstruments[selectedAssayValue] || [];
-  instruments.forEach(instrument => {
-    const li = document.createElement('li');
-    li.textContent = instrument;
-    currentInstrumentsList.appendChild(li);
-  });
-}
-
-// Event listener for assay selection in the update container
-document.getElementById('updateAssay').addEventListener('change', function () {
-  const selectedAssay = this.value;
-  updateCurrentInstruments(selectedAssay); // Update the current instruments list
-});
 
 const assayData = {
   Pain2,
@@ -705,28 +509,6 @@ function saveRun(instrument, assay, batchName, result, csvData) {
     });
   }
 
-  // Reset form function
-  window.resetMainForm = function () {
-    // Reset assay selection
-    const assaySelect = document.getElementById('assay');
-    if (assaySelect) assaySelect.value = '';
-
-    // Reset LCMS instrument selection
-    const lcmsSelect = document.getElementById('lcms');
-    if (lcmsSelect) {
-      lcmsSelect.value = '';
-      lcmsSelect.disabled = true;
-    }
-
-    // Clear file input
-    const fileUpload = document.getElementById('fileUpload');
-    if (fileUpload) fileUpload.value = '';
-
-    // Clear displayed results
-    const resultsDisplay = document.getElementById('resultsDisplay');
-    if (resultsDisplay) resultsDisplay.innerHTML = ''; // Clear results
-  };
-
   // Reset previous runs function
   window.resetPreviousRuns = function () {
     // Reset search input container
@@ -787,6 +569,204 @@ function downloadCSV(csvData, batchName) {
 
 // Expose the function to the global scope
 window.downloadCSV = downloadCSV;
+
+// Initialize the instruments mapping
+const assayInstruments = {
+  "AMPoff": AMPoff.defaultInstruments,
+  "Antidepressants": Antidepressants.defaultInstruments,
+  "BTHC": BTHC.defaultInstruments,
+  "Creatinine": Creatinine.defaultInstruments,
+  "DLMeth": DLMeth.defaultInstruments,
+  "ETG": ETG.defaultInstruments,
+  "Gaba": Gaba.defaultInstruments,
+  "OralFluids": OralFluids.defaultInstruments,
+  "Pain2": Pain2.defaultInstruments,
+  "Pain3": Pain3.defaultInstruments,
+  "Synthetic": Synthetic.defaultInstruments,
+  "Testosterone": Testosterone.defaultInstruments,
+  "tfvDP": tfvDP.defaultInstruments,
+  "vitD": vitD.defaultInstruments
+};
+
+// Complete list of instruments
+const allInstruments = [
+  'LCMS 1', 'LCMS 2', 'LCMS 3', 'LCMS 4',
+  'LCMS 5', 'LCMS 6', 'LCMS 7', 'LCMS 9',
+  'LCMS 10', 'LCMS 15', 'LCMS 16', 'LCMS 17'
+];
+
+// Function to populate the available instruments dropdown
+function populateAvailableInstrumentsDropdown() {
+  const availableInstrumentsDropdown = document.getElementById('availableInstruments');
+
+  // Clear existing options
+  availableInstrumentsDropdown.innerHTML = '<option value="">Select an instrument</option>';
+
+  // Populate with all instruments
+  allInstruments.forEach(instrument => {
+    const option = document.createElement('option');
+    option.value = instrument;
+    option.textContent = instrument;
+    availableInstrumentsDropdown.appendChild(option);
+  });
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Load instruments from localStorage
+  const savedInstruments = localStorage.getItem('assayInstruments');
+  if (savedInstruments) {
+    const parsedInstruments = JSON.parse(savedInstruments);
+    // Merge saved instruments with the existing assayInstruments
+    Object.keys(parsedInstruments).forEach(assay => {
+      if (assayInstruments[assay]) {
+        assayInstruments[assay] = [...new Set([...assayInstruments[assay], ...parsedInstruments[assay]])];
+      }
+    });
+  }
+
+  // Populate the available instruments dropdown for the update container
+  populateAvailableInstrumentsDropdown();
+
+  // Update the LCMS dropdown based on the selected assay in the analyze container
+  updateLCMSDropdown();
+
+  // Disable buttons initially
+  document.getElementById('addInstrumentBtn').disabled = true;
+  document.getElementById('removeInstrumentBtn').disabled = true;
+  document.getElementById('toggleMeansBtn').disabled = true;
+  document.getElementById('toggleISTDBtn').disabled = true;
+  document.getElementById('finishedBtn').disabled = true;
+
+  // Event listener for the assay dropdown
+  document.getElementById('updateAssay').addEventListener('change', function () {
+    const selectedAssay = this.value;
+
+    // Enable buttons if a valid assay is selected
+    const buttons = [
+      'addInstrumentBtn',
+      'removeInstrumentBtn',
+      'toggleMeansBtn',
+      'toggleISTDBtn',
+      'finishedBtn'
+    ];
+
+    buttons.forEach(buttonId => {
+      document.getElementById(buttonId).disabled = !selectedAssay; // Enable if selectedAssay is not empty
+    });
+  });
+
+  const addInstrumentBtn = document.getElementById('addInstrumentBtn');
+  if (addInstrumentBtn) {
+    addInstrumentBtn.addEventListener('click', function () {
+    });
+  } else {
+    console.error('Add Instrument button not found in the DOM.');
+  }
+
+  const removeInstrumentBtn = document.getElementById('removeInstrumentBtn');
+  if (removeInstrumentBtn) {
+    removeInstrumentBtn.addEventListener('click', function () {
+    });
+  } else {
+    console.error('Remove Instrument button not found in the DOM.');
+  }
+});
+
+// Function to update the LCMS dropdown based on the selected assay in the analyze container
+function updateLCMSDropdown() {
+  const selectedAssay = document.getElementById('assay').value;
+  const lcmsDropdown = document.getElementById('lcms');
+
+  // Enable the dropdown
+  lcmsDropdown.disabled = false;
+
+  // Clear existing options
+  lcmsDropdown.innerHTML = '<option value="">Select an instrument</option>';
+
+  // Get instruments for the selected assay
+  const instruments = assayInstruments[selectedAssay] || [];
+  instruments.forEach(instrument => {
+    const option = document.createElement('option');
+    option.value = instrument;
+    option.textContent = instrument;
+    lcmsDropdown.appendChild(option);
+  });
+}
+
+// Event listener for the assay selection in the analyze container
+document.getElementById('assay').addEventListener('change', function () {
+  updateLCMSDropdown(); // Update the LCMS dropdown based on the selected assay
+});
+
+// Event listener for adding an instrument
+document.getElementById('addInstrumentBtn').addEventListener('click', function () {
+  const selectedAssay = document.getElementById('updateAssay').value;
+  const selectedInstrument = document.getElementById('availableInstruments').value;
+
+  if (selectedInstrument) {
+    addInstrument(selectedAssay, selectedInstrument);
+    updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
+    alert('Instrument has been added.'); // Alert for adding instrument
+  } else {
+    alert('Please select a valid instrument to add.');
+  }
+});
+
+// Function to add an instrument
+function addInstrument(assay, instrument) {
+  if (!assayInstruments[assay].includes(instrument)) {
+    assayInstruments[assay].push(instrument);
+    localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments));
+  }
+}
+
+// Function to remove an instrument
+function removeInstrument(assay, instrument) {
+  const index = assayInstruments[assay].indexOf(instrument);
+  if (index > -1) {
+    assayInstruments[assay].splice(index, 1); // Remove the instrument
+    localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments)); // Update localStorage
+  }
+}
+
+// Event listener for removing an instrument
+document.getElementById('removeInstrumentBtn').addEventListener('click', function () {
+  const selectedAssay = document.getElementById('updateAssay').value;
+  const selectedInstrument = document.getElementById('availableInstruments').value;
+
+  if (selectedInstrument) {
+    removeInstrument(selectedAssay, selectedInstrument);
+    updateCurrentInstruments(selectedAssay); // Refresh the current instruments list
+    updateLCMSDropdown(); // Update the LCMS dropdown in the analyze container
+    alert('Instrument has been removed.'); // Alert for removing instrument
+  } else {
+    alert('Please select a valid instrument to remove.');
+  }
+});
+
+// Function to update the current instruments list
+function updateCurrentInstruments(selectedAssay) {
+  const currentInstrumentsList = document.getElementById('currentInstrumentsList');
+  const selectedAssayValue = selectedAssay || document.getElementById('updateAssay').value;
+
+  // Clear current instruments list
+  currentInstrumentsList.innerHTML = '';
+
+  // Get instruments for the selected assay
+  const instruments = assayInstruments[selectedAssayValue] || [];
+  instruments.forEach(instrument => {
+    const li = document.createElement('li');
+    li.textContent = instrument;
+    currentInstrumentsList.appendChild(li);
+  });
+}
+
+// Event listener for assay selection in the update container
+document.getElementById('updateAssay').addEventListener('change', function () {
+  const selectedAssay = this.value;
+  updateCurrentInstruments(selectedAssay); // Update the current instruments list
+});
 
 // UI Logic
 
@@ -1086,6 +1066,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
 function resetMainForm() {
   // Reset assay selection
   const assaySelect = document.getElementById('assay');
@@ -1107,41 +1088,11 @@ function resetMainForm() {
   if (resultsDisplay) resultsDisplay.innerHTML = ''; // Clear results
 }
 
-function resetPreviousRuns() {
-  // Reset search input container
-  const searchInputContainer = document.getElementById('searchInputContainer');
-  if (searchInputContainer) {
-    searchInputContainer.innerHTML = `
-            <select id="assaySearch">
-                <option value="">Select Assay</option>
-                <option value="AMPoff">AMPoff</option>
-                <option value="Antidepressants">Antidepressants</option>
-                <option value="BTHC">BTHC</option>
-                <option value="Creatinine">Creatinine</option>
-                <option value="DLMeth">DL Meth</option>
-                <option value="ETG">ETG</option>
-                <option value="Gaba">Gaba</option>
-                <option value="OralFluids">OralFluids</option>
-                <option value="Pain2">Pain2</option>
-                <option value="Pain3">Pain3</option>
-                <option value="Synthetic">Synthetic</option>
-                <option value="Testosterone">Testosterone</option>
-                <option value="tfvDP">TFV-DP</option>
-                <option value="vitD">VitD</option>
-            </select>
-        `;
-  }
+document.getElementById('resetMainFormBtn').addEventListener('click', resetMainForm);
 
-  // Clear previous runs display
-  const previousRunsDiv = document.getElementById('previousRuns');
-  if (previousRunsDiv) previousRunsDiv.innerHTML = ''; // Clear previous runs only
 
-  // Reset the radio buttons
-  const radioButtons = document.querySelectorAll('input[name="searchType"]');
-  radioButtons.forEach(radio => {
-    radio.checked = false; // Uncheck all radio buttons
-  });
-}
+
+document.getElementById('resetPreviousRunsBtn').addEventListener('click', resetPreviousRuns);
 
 document.addEventListener('DOMContentLoaded', function () {
   const updateContainer = document.querySelector('.update-container');
