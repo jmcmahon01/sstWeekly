@@ -14,6 +14,43 @@ import { Testosterone } from './assays/testosterone.js';
 import { tfvDP } from './assays/tfvdp.js';
 import { vitD } from './assays/vitd.js';
 
+async function sendAssayData(assayData) {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(assayData), // Send the assay data as JSON
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const result = await response.json();
+    console.log('Assay data saved successfully:', result);
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
+// Call the function for each assay
+sendAssayData(AMPoff);
+sendAssayData(Antidepressants);
+sendAssayData(BTHC);
+sendAssayData(Creatinine);
+sendAssayData(DLMeth);
+sendAssayData(ETG);
+sendAssayData(Gaba);
+sendAssayData(OralFluids);
+sendAssayData(Pain2);
+sendAssayData(Pain3);
+sendAssayData(Synthetic);
+sendAssayData(Testosterone);
+sendAssayData(tfvDP);
+sendAssayData(vitD);
+
 
 
 const assayData = {
@@ -32,6 +69,32 @@ const assayData = {
   tfvDP,
   vitD
 };
+// Function to fetch assay data from the server
+async function fetchAssayData() {
+  console.log('Fetching assay data from the server...'); // Log before fetching
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts'); // Replace with actual endpoint
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+
+    // Log the fetched data
+    console.log('Fetched data:', data);
+
+    // Update assayData with the fetched data
+    Object.assign(assayData, data);
+
+    // Log after updating assayData
+    console.log('assayData updated successfully:', assayData);
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+    // Handle error (e.g., fallback to defaults or notify the user)
+  }
+}
+
+// Call the fetch function to initialize data
+fetchAssayData();
 
 let establishedMeans = {};
 let istdAnalytes = {};
@@ -41,6 +104,28 @@ for (const assay in assayData) {
   establishedMeans[assay] = JSON.parse(localStorage.getItem(`${assay}EstablishedMeans`)) || { ...assayData[assay].defaultEstablishedMeans };
   istdAnalytes[assay] = JSON.parse(localStorage.getItem(`${assay}IstdAnalytes`)) || { ...assayData[assay].defaultIstdAnalytes };
 }
+//initialize data for assays, retrieve from server instead of local storage
+//async function fetchMeansFromServer(assay) {
+//try {
+//const response = await fetch(`https://jsonplaceholder.typicode.com/posts`); // Replace with your actual endpoint
+//if (!response.ok) {
+//throw new Error('Network response was not ok');
+//}
+//const data = await response.json();
+
+// Update establishedMeans and istdAnalytes with the fetched data
+//establishedMeans[assay] = data.establishedMeans || { ...assayData[assay].defaultEstablishedMeans };
+//istdAnalytes[assay] = data.istdAnalytes || { ...assayData[assay].defaultIstdAnalytes };
+//} catch (error) {
+//console.error('There was a problem with the fetch operation:', error);
+// Handle error (e.g., fallback to defaults or notify the user)
+//}
+//}
+
+// Call this function for each assay to initialize means
+//for (const assay in assayData) {
+//fetchMeansFromServer(assay);
+//}
 
 function saveEstablishedMeans(assay) {
   const updatedMeans = {};
@@ -109,12 +194,13 @@ function saveISTDAnalytes(assay) {
   alert(`ISTD analytes for ${assay} have been saved successfully!`);
 }
 
-let currentAssay = '';
+
 
 document.getElementById("assay").addEventListener("change", function () {
-  currentAssay = this.value;
-  console.log("Selected assay:", currentAssay);
-  console.log("Assay data:", assayData[currentAssay]);
+  let assaySelection = '';
+  assaySelection = this.value;
+  console.log("Selected assay:", assaySelection);
+  console.log("Assay data:", assayData[assaySelection]);
 
   const lcmsDropdown = document.getElementById("lcms");
   const toggleMeansButton = document.getElementById("toggleMeansBtn");
@@ -125,9 +211,9 @@ document.getElementById("assay").addEventListener("change", function () {
   toggleMeansButton.disabled = true;
   toggleISTDButton.disabled = true;
 
-  if (assayInstruments[currentAssay]) { // Use assayInstruments instead of assayData
-    console.log("Instruments for selected assay:", assayInstruments[currentAssay]);
-    assayInstruments[currentAssay].forEach(instrument => {
+  if (assayInstruments[assaySelection]) { // Use assayInstruments instead of assayData
+    console.log("Instruments for selected assay:", assayInstruments[assaySelection]);
+    assayInstruments[assaySelection].forEach(instrument => {
       const option = document.createElement('option');
       option.value = option.textContent = instrument;
       lcmsDropdown.appendChild(option);
@@ -544,9 +630,6 @@ function saveRun(instrument, assay, batchName, result, csvData) {
     radioButtons.forEach(radio => {
       radio.checked = false; // Uncheck all radio buttons
     });
-
-    // Optionally, set a specific radio button to checked
-    // document.getElementById('defaultRadioButtonId').checked = true; // Uncomment and set the ID of the default radio button
   };
 
   // Use DOMContentLoaded event to ensure the DOM is fully loaded before running our code
@@ -1090,9 +1173,6 @@ function resetMainForm() {
 
 document.getElementById('resetMainFormBtn').addEventListener('click', resetMainForm);
 
-
-
-document.getElementById('resetPreviousRunsBtn').addEventListener('click', resetPreviousRuns);
 
 document.addEventListener('DOMContentLoaded', function () {
   const updateContainer = document.querySelector('.update-container');
