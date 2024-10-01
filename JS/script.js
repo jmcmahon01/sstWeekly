@@ -146,6 +146,27 @@ function saveEstablishedMeans(assay) {
   }
 
   establishedMeans[assay] = { ...updatedMeans };
+  // Send updated means to the server
+  //try {
+  //const response = await fetch(`https://your-backend-url/api/assays/${assay}/means`, {
+  //method: 'POST', // or 'PUT' if updating
+  //headers: {
+  //'Content-Type': 'application/json',
+  //},
+  //body: JSON.stringify({ establishedMeans: establishedMeans[assay] }),
+  //});
+
+  //if (!response.ok) {
+  //throw new Error('Network response was not ok');
+  //}
+
+  //const result = await response.json();
+  //console.log(`Updated Established Means for ${assay}:`, result);
+  //alert(`Established means for ${assay} have been saved successfully!`);
+  //} catch (error) {
+  //console.error('There was a problem with the fetch operation:', error);
+  //}
+  //}
   localStorage.setItem(`${assay}EstablishedMeans`, JSON.stringify(establishedMeans[assay]));
   console.log(`Updated Established Means for ${assay}:`, establishedMeans[assay]);
   alert(`Established means for ${assay} have been saved successfully!`);
