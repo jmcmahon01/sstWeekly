@@ -148,7 +148,7 @@ function saveEstablishedMeans(assay) {
   establishedMeans[assay] = { ...updatedMeans };
   // Send updated means to the server
   //try {
-  //const response = await fetch(`https://your-backend-url/api/assays/${assay}/means`, {
+  //const response = await fetch(`https://jsonplaceholder.typicode.com/api/assays/${assay}/means`, {
   //method: 'POST', // or 'PUT' if updating
   //headers: {
   //'Content-Type': 'application/json',
@@ -210,6 +210,27 @@ function saveISTDAnalytes(assay) {
 
   // Save updated ISTD analytes
   istdAnalytes[assay] = { ...updatedISTD };
+  // Save updated ISTD analytes to the server
+  //try {
+  //const response = await fetch(`https://jsonplaceholder.typicode.com/api/assays/${assay}/istd-analytes`, {
+  //method: 'POST', // or 'PUT' if updating
+  //headers: {
+  //'Content-Type': 'application/json',
+  //},
+  //body: JSON.stringify({ istdAnalytes: istdAnalytes[assay] }), // Send the updated ISTD analytes as JSON
+  //});
+
+  //if (!response.ok) {
+  //throw new Error('Network response was not ok');
+  //}
+
+  //const result = await response.json();
+  //console.log(`Updated ISTD Analytes for ${assay}:`, result);
+  //alert(`ISTD analytes for ${assay} have been saved successfully!`);
+  //} catch (error) {
+  //console.error('There was a problem with the fetch operation:', error);
+  //}
+  //}
   localStorage.setItem(`${assay}IstdAnalytes`, JSON.stringify(istdAnalytes[assay]));
   console.log(`Updated ISTD Analytes for ${assay}:`, istdAnalytes[assay]);
   alert(`ISTD analytes for ${assay} have been saved successfully!`);
