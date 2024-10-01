@@ -149,7 +149,7 @@ function saveEstablishedMeans(assay) {
   // Send updated means to the server
   //try {
   //const response = await fetch(`https://jsonplaceholder.typicode.com/api/assays/${assay}/means`, {
-  //method: 'POST', // or 'PUT' if updating
+  //method: 'PUT',
   //headers: {
   //'Content-Type': 'application/json',
   //},
@@ -213,7 +213,7 @@ function saveISTDAnalytes(assay) {
   // Save updated ISTD analytes to the server
   //try {
   //const response = await fetch(`https://jsonplaceholder.typicode.com/api/assays/${assay}/istd-analytes`, {
-  //method: 'POST', // or 'PUT' if updating
+  //method: 'PUT'
   //headers: {
   //'Content-Type': 'application/json',
   //},
@@ -279,11 +279,11 @@ document.getElementById("assay").addEventListener("change", function () {
 function analyzeData() {
   // Load saved means from local storage
   const currentAssay = document.getElementById('assay').value;
-  const savedMeans = JSON.parse(localStorage.getItem('establishedMeans')) || {};
-  const means = savedMeans[currentAssay] || {}; // Get means for the current assay
+  //const savedMeans = JSON.parse(localStorage.getItem('establishedMeans')) || {};
+  //const means = savedMeans[currentAssay] || {}; // Get means for the current assay
 
   // Debugging log to check the means object
-  console.log("Loaded means for current assay:", means);
+  //console.log("Loaded means for current assay:", means);
 
   const fileInput = document.getElementById('fileUpload');
   if (!fileInput.files.length) {
