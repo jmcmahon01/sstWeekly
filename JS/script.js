@@ -417,7 +417,7 @@ function analyzeData() {
     saveRun(document.getElementById('lcms').value,
       document.getElementById('assay').value,
       batchName,
-      runResult, // Use the calculated runResult
+      runResult,
       csvData);
   };
 

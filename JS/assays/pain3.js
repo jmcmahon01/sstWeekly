@@ -1,8 +1,8 @@
 export const Pain3 = {
   defaultEstablishedMeans: {
-    '6MAM 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
+    '6-MAM 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'Amphetamine 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
-    'Benzoylecogonine 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
+    'Benzoylecgonine 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'Buprenorphine 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'Carisoprodol 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
     'Codeine 1': { peakArea: 1000, retentionTime: { min: 2, max: 5 } },
