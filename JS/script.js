@@ -487,7 +487,7 @@ function saveRun(instrument, assay, batchName, result, csvData) {
 //console.log("Saving run:", newRun);
 
 //try {
-//const response = await fetch('https://jsonplaceholder.typicode.com/api/runs', { 
+//const response = await fetch('https://jsonplaceholder.com/api/runs', { 
 //method: 'POST',
 //headers: {
 //'Content-Type': 'application/json',
@@ -556,6 +556,65 @@ function saveRun(instrument, assay, batchName, result, csvData) {
 
     displayFilteredRuns(filteredRuns);
   };
+  /* async function fetchPreviousRuns() {
+    try {
+      const response = await fetch('https://jsonplaceholder.com/api/runs'); // Replace with actual server endpoint
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const previousRuns = await response.json();
+      return previousRuns; // Return the fetched runs
+    } catch (error) {
+      console.error('Error fetching previous runs:', error);
+      return []; // Return an empty array on error
+    }
+  }
+  
+  window.searchRuns = async function () {
+    const searchType = document.querySelector('input[name="searchType"]:checked').value;
+    let searchInput;
+  
+    switch (searchType) {
+      case 'assay':
+        searchInput = document.getElementById('assaySearch').value;
+        break;
+      case 'instrument':
+        searchInput = document.getElementById('instrumentSearch').value;
+        break;
+      case 'batch':
+        searchInput = document.getElementById('batchSearch').value.trim().toLowerCase();
+        break;
+    }
+  
+    if (!searchInput) {
+      console.log("No search input provided");
+      return;
+    }
+  
+    const previousRuns = await fetchPreviousRuns(); // Fetch runs from the server
+  
+    console.log("Search type:", searchType);
+    console.log("Search input:", searchInput);
+    console.log("Total previous runs:", previousRuns.length);
+  
+    const filteredRuns = previousRuns.filter(run => {
+      if (!run) return false; // Skip if run is undefined or null
+  
+      switch (searchType) {
+        case 'assay':
+          return run.assay && run.assay === searchInput;
+        case 'instrument':
+          return run.instrument && run.instrument === searchInput;
+        case 'batch':
+          return run.batchName && run.batchName.toLowerCase().includes(searchInput);
+        default:
+          return false;
+      }
+    });
+  
+    console.log("Filtered runs:", filteredRuns.length);
+    displayFilteredRuns(filteredRuns);
+  }; */
 
   function initializeSearch() {
     const searchTypeRadios = document.querySelectorAll('input[name="searchType"]');
