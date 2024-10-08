@@ -277,7 +277,7 @@ document.getElementById("assay").addEventListener("change", function () {
 });
 
 function analyzeData() {
-  // Load saved means from local storage
+  // Load saved means from local storage/from server:fetchMeansFromServer();
   const currentAssay = document.getElementById('assay').value;
   //const savedMeans = JSON.parse(localStorage.getItem('establishedMeans')) || {};
   //const means = savedMeans[currentAssay] || {}; // Get means for the current assay
@@ -474,6 +474,37 @@ function saveRun(instrument, assay, batchName, result, csvData) {
   previousRuns.push(newRun);
   localStorage.setItem('previousRuns', JSON.stringify(previousRuns));
 }
+//async function saveRun(instrument, assay, batchName, result, csvData) {
+//const newRun = {
+//instrument: instrument,
+//assay: assay,
+//batchName: batchName,
+//result: result, // Ensure this is being set correctly
+//data: csvData,
+//timestamp: Date.now()
+//};
+
+//console.log("Saving run:", newRun);
+
+//try {
+//const response = await fetch('https://jsonplaceholder.typicode.com/api/runs', { 
+//method: 'POST',
+//headers: {
+//'Content-Type': 'application/json',
+//},
+//body: JSON.stringify(newRun),
+//});
+
+//if (!response.ok) {
+//throw new Error('Network response was not ok');
+//}
+
+//const resultData = await response.json(); // Assuming the server returns some data
+//console.log("Run saved successfully:", resultData);
+//} catch (error) {
+//console.error('There was a problem with the fetch operation:', error);
+//}
+//}
 
 // Wrap code in an IIFE to avoid polluting the global scope, but expose necessary functions
 (function () {
