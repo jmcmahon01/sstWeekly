@@ -107,7 +107,7 @@ for (const assay in assayData) {
 //initialize data for assays, retrieve from server instead of local storage
 //async function fetchMeansFromServer(assay) {
 //try {
-//const response = await fetch(`https://jsonplaceholder.typicode.com/posts`); // Replace with your actual endpoint
+//const response = await fetch(`https://jsonplaceholder.typicode.com/posts`); // Replace with  actual endpoint
 //if (!response.ok) {
 //throw new Error('Network response was not ok');
 //}
@@ -839,6 +839,48 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+  /*
+async function fetchAssayInstruments() {
+  try {
+    const response = await fetch('https://jsonplaceholder.com/api/assayInstruments'); // Replace with actual endpoint
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data; // Assuming the data is structured correctly for assayInstruments
+  } catch (error) {
+    console.error('Error fetching assay instruments:', error);
+    return {}; // Return an empty object on error
+  }
+}
+  document.addEventListener('DOMContentLoaded', async function () {
+  // Load instruments from the server
+  const fetchedInstruments = await fetchAssayInstruments();
+
+  // Merge fetched instruments with the existing assayInstruments
+  Object.keys(fetchedInstruments).forEach(assay => {
+    if (assayInstruments[assay]) {
+      assayInstruments[assay] = [...new Set([...assayInstruments[assay], ...fetchedInstruments[assay]])];
+    } else {
+      // If the assay does not exist in assayInstruments, add it
+      assayInstruments[assay] = fetchedInstruments[assay];
+    }
+  });
+
+  // Continue with initialization logic
+  populateAvailableInstrumentsDropdown();
+  updateLCMSDropdown();
+
+  // Disable buttons initially
+  document.getElementById('addInstrumentBtn').disabled = true;
+  document.getElementById('removeInstrumentBtn').disabled = true;
+  document.getElementById('toggleMeansBtn').disabled = true;
+  document.getElementById('toggleISTDBtn').disabled = true;
+  document.getElementById('finishedBtn').disabled = true;
+
+  // ... (rest of initialization code
+});
+  */
 
   // Populate the available instruments dropdown for the update container
   populateAvailableInstrumentsDropdown();
@@ -935,6 +977,36 @@ function addInstrument(assay, instrument) {
     localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments));
   }
 }
+/*
+async function saveInstrumentsToServer() {
+  try {
+    const response = await fetch('https://jsonplaceholder.com/api/assayInstruments', { // Replace with actual endpoint
+      method: 'PUT', // or post  if creating new data?
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(assayInstruments), // Send the updated assayInstruments object
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    console.log("Instruments saved successfully.");
+  } catch (error) {
+    console.error('Error saving instruments to server:', error);
+  }
+}
+*/
+/*
+function addInstrument(assay, instrument) {
+  if (!assayInstruments[assay].includes(instrument)) {
+    assayInstruments[assay].push(instrument);
+    // Save the updated instruments to the server
+    saveInstrumentsToServer(); // Call the function to save to the server
+  }
+}
+*/
 
 // Function to remove an instrument
 function removeInstrument(assay, instrument) {
@@ -944,6 +1016,18 @@ function removeInstrument(assay, instrument) {
     localStorage.setItem('assayInstruments', JSON.stringify(assayInstruments)); // Update localStorage
   }
 }
+/*
+//Also uses saveInstrumentsToServer to remove an instrument
+function removeInstrument(assay, instrument) {
+  const index = assayInstruments[assay].indexOf(instrument);
+  if (index > -1) {
+    assayInstruments[assay].splice(index, 1); // Remove the instrument
+    // Save the updated instruments to the server
+    saveInstrumentsToServer(); // Call the function to save to the server
+  }
+}
+*/
+
 
 // Event listener for removing an instrument
 document.getElementById('removeInstrumentBtn').addEventListener('click', function () {
@@ -1241,7 +1325,7 @@ document.addEventListener('DOMContentLoaded', () => {
   lcmsDropdown.disabled = true;
   hideMeansContainers();
 
-  // At the top of your file, define an array of supported assays
+  // At the top of file there is a defined array of supported assays
   const supportedAssays = Object.keys(assayData);
 
   document.getElementById("updateAssay").addEventListener("change", function () {
