@@ -39,7 +39,7 @@ Or access application in web browser at:
 https://jmcmahon01.github.io/sstWeekly
 
 ## Known Bugs
-* No known bugs at this time.
+* Add new assay is not working correctly
 
 
 

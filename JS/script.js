@@ -1439,3 +1439,117 @@ function clearUpdateInstruments() {
 document.getElementById('finishedBtn').addEventListener('click', function () {
   clearUpdateInstruments(); // Call the function to clear the fields
 });
+
+function addParentAnalyte() {
+  const container = document.getElementById('parentAnalytesContainer');
+  const analyteDiv = document.createElement('div');
+  analyteDiv.innerHTML = `
+    <input type="text" placeholder="Analyte Name" required>
+    <input type="number" placeholder="Peak Area" required>
+    <input type="number" placeholder="RT Min" required>
+    <input type="number" placeholder="RT Max" required>
+    <button class="removeAnalyteBtn">Remove</button>
+  `;
+  container.appendChild(analyteDiv);
+
+  // Attach event listener to remove the analyte
+  analyteDiv.querySelector('.removeAnalyteBtn').addEventListener('click', () => {
+    container.removeChild(analyteDiv);
+  });
+}
+
+function addIstdAnalyte() {
+  const container = document.getElementById('istdAnalytesContainer');
+  const analyteDiv = document.createElement('div');
+  analyteDiv.innerHTML = `
+    <input type="text" placeholder="ISTD Analyte Name" required>
+    <input type="number" placeholder="Peak Area" required>
+    <input type="number" placeholder="RT Min" required>
+    <input type="number" placeholder="RT Max" required>
+    <button class="removeIstdBtn">Remove</button>
+  `;
+  container.appendChild(analyteDiv);
+
+  // Attach event listener to remove the ISTD analyte
+  analyteDiv.querySelector('.removeIstdBtn').addEventListener('click', () => {
+    container.removeChild(analyteDiv);
+  });
+}
+
+function saveNewAssay() {
+  const assayName = document.getElementById('assayName').value.trim();
+  const parentAnalytes = Array.from(document.querySelectorAll('#parentAnalytesContainer > div')).map(div => {
+    const inputs = div.querySelectorAll('input');
+    return {
+      name: inputs[0].value.trim(),
+      peakArea: parseFloat(inputs[1].value),
+      rtMin: parseFloat(inputs[2].value),
+      rtMax: parseFloat(inputs[3].value)
+    };
+  });
+
+  const istdAnalytes = Array.from(document.querySelectorAll('#istdAnalytesContainer > div')).map(div => {
+    const inputs = div.querySelectorAll('input');
+    return {
+      name: inputs[0].value.trim(),
+      peakArea: parseFloat(inputs[1].value),
+      rtMin: parseFloat(inputs[2].value),
+      rtMax: parseFloat(inputs[3].value)
+    };
+  });
+
+  const selectedInstruments = Array.from(document.getElementById('instrumentsSelect').selectedOptions).map(option => option.value);
+
+  // Create the new assay object
+  const newAssay = {
+    name: assayName,
+    parentAnalytes: parentAnalytes,
+    istdAnalytes: istdAnalytes,
+    instruments: selectedInstruments
+  };
+
+  // Save to local storage
+  const existingAssays = JSON.parse(localStorage.getItem('assays')) || [];
+  existingAssays.push(newAssay);
+  localStorage.setItem('assays', JSON.stringify(existingAssays));
+
+  // Optionally, refresh the UI or clear the form
+  alert('New assay saved successfully!');
+  document.getElementById('newAssayFormContainer').style.display = 'none'; // Hide the form
+}
+
+document.getElementById('addNewAssayBtn').addEventListener('click', function () {
+  const formContainer = document.getElementById('newAssayFormContainer');
+  formContainer.innerHTML = ''; //clear previous entries if any
+
+  //Create form elements
+  const formHTML = `
+  <h3>Add New Assay</h3>
+  <label for="assayName">Assay Name:</label>
+  <input type="text" id="assayName" required>
+  
+  <h4>Parent Analytes</h4>
+  <div id="parentAnalytesContainer"></div>
+  <button id="addParentAnalyteBtn">Add Parent Analytes</button>
+
+  <h4>ISTD Analytes</h4>
+  <div id="istdAnalytesContainer"></div>
+  <button id="addIstdAnalyteBtn">Add ISTD Analytes</button>
+
+  <h4>Select Instruments</h4>
+  <select id="instrumentsSelect" multiple>
+  ${Object.keys(assayInstruments).map(instrument => `<option value="${instrument}">${instrument}</option`).join('')}
+  </select>
+
+  <button id="saveNewAssayBtn">Save New Assay</button>
+  `;
+  formContainer.innerHTML = formHTML;
+  formContainer.style.display = 'block'; //show form
+
+  //Event listeners for adding analytes
+  document.getElementById('addParentAnalyteBtn').addEventListener('click', addParentAnalyte);
+  document.getElementById('addIstdAnalyteBtn').addEventListener('click', addIstdAnalyte);
+
+  //Event listener for saving new assay
+  document.getElementById('saveNewAssayBtn').addEventListener('click', saveNewAssay);
+});
