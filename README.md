@@ -39,7 +39,7 @@ Or access application in web browser at:
 https://jmcmahon01.github.io/sstWeekly
 
 ## Known Bugs
-* Add new assay is not working correctly
+* Select instruments for adding new assays shows assays instead of instruments
 
 
 

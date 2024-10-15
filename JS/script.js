@@ -1520,36 +1520,37 @@ function saveNewAssay() {
 
 document.getElementById('addNewAssayBtn').addEventListener('click', function () {
   const formContainer = document.getElementById('newAssayFormContainer');
-  formContainer.innerHTML = ''; //clear previous entries if any
+  formContainer.innerHTML = ''; // Clear previous form if any
 
-  //Create form elements
+  // Create the form elements
   const formHTML = `
-  <h3>Add New Assay</h3>
-  <label for="assayName">Assay Name:</label>
-  <input type="text" id="assayName" required>
-  
-  <h4>Parent Analytes</h4>
-  <div id="parentAnalytesContainer"></div>
-  <button id="addParentAnalyteBtn">Add Parent Analytes</button>
-
-  <h4>ISTD Analytes</h4>
-  <div id="istdAnalytesContainer"></div>
-  <button id="addIstdAnalyteBtn">Add ISTD Analytes</button>
-
-  <h4>Select Instruments</h4>
-  <select id="instrumentsSelect" multiple>
-  ${Object.keys(assayInstruments).map(instrument => `<option value="${instrument}">${instrument}</option`).join('')}
-  </select>
-
-  <button id="saveNewAssayBtn">Save New Assay</button>
+    <h3>Add New Assay</h3>
+    <label for="assayName">Assay Name:</label>
+    <input type="text" id="assayName" required>
+    
+    <h4>Parent Analytes</h4>
+    <div id="parentAnalytesContainer"></div>
+    <button id="addParentAnalyteBtn">Add Parent Analyte</button>
+    
+    <h4>ISTD Analytes</h4>
+    <div id="istdAnalytesContainer"></div>
+    <button id="addIstdAnalyteBtn">Add ISTD Analyte</button>
+    
+    <h4>Select Instruments</h4>
+    <select id="instrumentsSelect" multiple>
+      ${Object.keys(assayInstruments).map(instrument => `<option value="${instrument}">${instrument}</option>`).join('')}
+    </select>
+    
+    <button id="saveNewAssayBtn">Save New Assay</button>
   `;
+  
   formContainer.innerHTML = formHTML;
-  formContainer.style.display = 'block'; //show form
+  formContainer.style.display = 'block'; // Show the form
 
-  //Event listeners for adding analytes
+  // Attach event listeners for adding analytes
   document.getElementById('addParentAnalyteBtn').addEventListener('click', addParentAnalyte);
   document.getElementById('addIstdAnalyteBtn').addEventListener('click', addIstdAnalyte);
-
-  //Event listener for saving new assay
+  
+  // Attach event listener for saving the new assay
   document.getElementById('saveNewAssayBtn').addEventListener('click', saveNewAssay);
 });
